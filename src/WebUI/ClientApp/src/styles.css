@@ -1,0 +1,157 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* Provide sufficient contrast against white background */
+a {
+  color: #0366d6;
+}
+
+code {
+  color: #e01a76;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.fill-remaining-space{
+  flex: 1 1 auto;
+}
+
+.no-data{
+  text-align: center;
+  font-weight: bold;
+  font-style: italic;
+}
+
+td {    
+  vertical-align: middle;
+}
+@media (min-width: 576px) {
+  .container {
+    max-width: inherit;
+    margin: 0;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    max-width: inherit;
+    margin: 0;
+  }
+}
+
+@media (min-width: 992px) {
+  .container {
+    max-width: inherit;
+    margin: 0;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container {
+    max-width: inherit;
+    margin: 0;
+  }
+}
+
+.grid-table
+{
+	display:table;
+}
+
+.thead
+{
+	display:table-header-group;
+	font-weight:bold;
+	border-bottom: 1px solid black;
+    text-align: center;   
+}
+.tbody
+{
+	display:table-row-group;
+}
+.tr
+{
+	display:table-row;	
+}
+.td
+{
+	display:table-cell;
+	padding: 10px 1px 1px 5px;
+}
+.left-container {
+  display: block;
+  padding: .5rem 2rem;
+  text-decoration: none;
+  list-style: none;
+}
+.padding-left-0 {
+  padding-left: 0;
+  padding-right: 0;
+}
+.flex-list {
+  position: relative;
+/*  margin:0 1em;*/
+  overflow: hidden;
+}
+
+  .flex-list ul {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-left: -1px;
+  }
+
+  .flex-list li {
+    flex-grow: 1;
+    flex-basis: auto;
+    margin:0 .25em;
+    padding: 0 1em;
+    text-align: center;
+    border-bottom: 1px solid #ccc;
+    background-color: #fff;
+  }
+.nav-link-edit
+{
+    padding:  2rem 0;
+}
+
+ul li a {
+  color: #ead6b7;
+  display: block;
+  text-decoration: none;
+  padding: 16px;
+}
+
+ul {
+  list-style-type: none;
+}
+
+li {
+  display: inline-block;
+}
+
+ul li a:hover {
+  color: #332419;
+  display: block;
+  text-decoration: none;
+}
+
+li:hover {
+  background-color: #ead6b7;
+}
+
+.mat-row:hover {
+  background-color: rgb(152, 192, 243);
+  cursor: pointer;
+}
+
+.mat-column-rowId{
+  flex: 0 0 7%;
+}

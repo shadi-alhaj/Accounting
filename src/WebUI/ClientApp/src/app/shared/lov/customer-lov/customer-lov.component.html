@@ -1,0 +1,8 @@
+<div>
+    <label>Customer Name</label>
+    <ngx-select-dropdown 
+                         [config]="config" 
+                         [options]="customerLovList.lists" 
+                         (change)="selectionChange($event)">
+    </ngx-select-dropdown>
+</div>

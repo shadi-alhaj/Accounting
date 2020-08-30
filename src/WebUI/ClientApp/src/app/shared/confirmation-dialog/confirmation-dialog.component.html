@@ -1,0 +1,16 @@
+<div class="modal-header clearfix">
+    <h4 class="modal-title float-left">{{data.title}} </h4>
+    <button type="button" class="close float-right" aria-label="Close" (click)="onClose()" tabindex="-1">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <span class="content-span full-width">
+        {{data.message}}
+    </span>
+</div>
+
+<div class="modal-footer">
+    <button mat-flat-button id="no-button" class="btn btn-default" [mat-dialog-close]="false">No</button>
+    <button mat-flat-button id="yes-button" class="btn btn-danger" [mat-dialog-close]="true">Yes</button>
+</div>

@@ -1,0 +1,51 @@
+<div class="card mat-elevation-z8">
+    <div class="card-header">
+        <h1>{{pageTitle}}</h1>
+    </div>
+    <div class="card-bdoy">
+    <div>
+        <table mat-table [dataSource]="dataSource" >
+            <ng-container matColumnDef="bondUserId">
+                <th mat-header-cell *matHeaderCellDef>ID</th>
+                <td mat-cell *matCellDef="let row">{{row.bondUserId}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="bondNameAr">
+                <th mat-header-cell *matHeaderCellDef>Bond Name (Ar)</th>
+                <td mat-cell *matCellDef="let row">{{row.bondNameAr}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="bondNameEn">
+                <th mat-header-cell *matHeaderCellDef>Bond Name (En)</th>
+                <td mat-cell *matCellDef="let row">{{row.bondNameEn == ''? '-': row.bondNameEn}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="intialSNo">
+                <th mat-header-cell *matHeaderCellDef>Intial SNo</th>
+                <td mat-cell *matCellDef="let row">{{row.intialSNo == ''? '-': row.intialSNo}}</td>
+            </ng-container>
+            
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef>
+                    <button class="btn btn-success" (click)="onCreate()"><fa-icon [icon]="faPlus"></fa-icon> Bond</button>
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    <button class="btn btn-default" title="Edit {{pageTitle}}..." (click)="onEdit(row)">
+                        <fa-icon [icon]="faEdit" class="text-primary"></fa-icon> 
+                    </button>
+                    <button class="btn btn-default" title="Delete {{[pageTitle]}}..." (click)="onDelete(row.id)">
+                        <fa-icon [icon]="faDelete" class="text-danger"></fa-icon>
+                    </button>
+                </td>
+            </ng-container>
+            
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+        
+        <mat-paginator [length]="100" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons>
+        </mat-paginator>
+    </div>
+
+    
+</div>

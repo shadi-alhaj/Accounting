@@ -1,0 +1,53 @@
+<div class="card mat-elevation-z8">
+    <div class="card-header">
+        <h1>{{pageTitle}}</h1>
+    </div>
+    <div class="card-bdoy">
+    <div>
+        <table mat-table [dataSource]="dataSource" >
+            <ng-container matColumnDef="rowId">
+                <th mat-header-cell *matHeaderCellDef>#</th>
+                <td mat-cell *matCellDef="let row; let i = index">
+                    {{this.paginator.pageIndex == 0 ? i + 1 : 1 + i + this.paginator.pageIndex * this.paginator.pageSize}}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="customerId">
+                <th mat-header-cell *matHeaderCellDef>Customer ID</th>
+                <td mat-cell *matCellDef="let row">{{row.customerId}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="customerName">
+                <th mat-header-cell *matHeaderCellDef>Customer Name</th>
+                <td mat-cell *matCellDef="let row">{{row.customerNameAr}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="financeYear">
+                <th mat-header-cell *matHeaderCellDef>Finance Year</th>
+                <td mat-cell *matCellDef="let row">{{row.year}}</td>
+            </ng-container>            
+            
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef>
+                    <button class="btn btn-success" (click)="onCreate()"> <fa-icon [icon]="faPlus"></fa-icon> Finance Year</button>
+                </th>
+                <td mat-cell *matCellDef="let row" (click)="$event.stopPropagation()">
+                    <button class="btn btn-default" title="Edit {{pageTitle}}..." (click)="onEdit(row)">
+                        <fa-icon [icon]="faEdit" class="text-primary"></fa-icon>
+                    </button>
+                    <button class="btn btn-default" title="Delete {{pageTitle}}..." (click)="onDelete(row.id)">
+                        <fa-icon [icon]="faDelete" class="text-danger"></fa-icon>
+                    </button>
+                </td>
+            </ng-container>
+            
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns" (click)="onRowClick(row)"></tr>
+        </table>
+        
+        <mat-paginator [length]="100" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons>
+        </mat-paginator>
+    </div>
+
+    
+</div>

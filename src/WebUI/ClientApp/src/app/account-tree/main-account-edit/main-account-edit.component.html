@@ -1,0 +1,96 @@
+
+<mat-toolbar>
+    <span>
+        {{accountTreeSvc.selectedMainAccount === null ? 'New Main Account':'Main Account Details'}}
+    </span>
+    <span class="fill-remaining-space">
+    </span>
+    <button class="btn close float-right" (click)="onClose()" tabindex="-1">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</mat-toolbar>
+<form [formGroup]="accountTreeSvc.mainAccountForm">
+    <div class="form-row mt-2">
+        <div class="col-md-4">
+            <label for="">General Ledger Account</label>
+        </div>
+        <div class="col-md-2">
+            <input type="number" 
+                   class="form-control"
+                   formControlName="glIdByCustomer"
+                   (keyup.enter)="getGlAndMainAccount(accountTreeSvc.mainAccountForm.get('glIdByCustomer').value);"
+                   [readOnly]="accountTreeSvc.selectedMainAccount !== null">
+        </div>
+        <div class="col-md-1">
+            <button class="btn btn-primary"
+            [disabled]="accountTreeSvc.selectedMainAccount !== null">...</button>
+        </div>
+        <div class="col-md-4">
+            <input type="text" 
+                   class="form-control"
+                   formControlName="glNameAr"                                    
+                   [readOnly]="true">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="">ID</label>
+        <input type="number" 
+               class="form-control"
+               formControlName="mainAccountIdByCustomer"
+               [readOnly]="true">
+    </div>
+
+    <div class="form-group">
+        <label for="">Main Account Name (Ar)</label>
+        <input type="text" 
+               class="form-control"
+               #mainAccountNameAr
+               formControlName="mainAccountNameAr"
+               style="text-align: right;" >
+    </div>
+
+    <div class="form-group">
+        <label for="">Main Account Name (En)</label>
+        <input type="text" 
+               class="form-control"
+               formControlName="mainAccountNameEn">
+    </div>
+   
+    <!-- <div class="form-group">
+        <label for="">Year</label>
+        <input type="number" 
+               class="form-control"
+               formControlName="year"
+               [ngClass]="{'is-invalid': accountTreeSvc.glForm.get('year').errors && 
+                                        (accountTreeSvc.glForm.get('year').touched || 
+                                         accountTreeSvc.glForm.get('year').dirty)  }" />
+
+                    <span class="invalid-feedback"> 
+                        <span *ngIf="accountTreeSvc.glForm.get('year').errors?.required">
+                            This Field is mandatory, Please enter finance year
+                        </span>                   
+                        <span *ngIf="accountTreeSvc.glForm.get('year').errors?.maxlength">
+                            Finance year can not exceed 9999
+                        </span>
+                        <span *ngIf="accountTreeSvc.glForm.get('year').errors?.minlength">
+                            Finance year can not exceed 9999
+                        </span>
+                    </span>
+                    <span class="text-danger" *ngIf="errorMessages.Year">
+                        {{errorMessages.Year}}
+                    </span>
+    </div> -->
+    <div class="modal-footer">
+        <div class="clearfix">
+            <div class="float-right">
+                <button class="btn btn-default mr-1" (click)="onClose(); $event.preventDefault()">Cancel</button>
+                <button class="btn btn-primary" 
+                        [disabled]="!accountTreeSvc.mainAccountForm.valid"
+                        (click)="onSubmit()">
+                    {{accountTreeSvc.selectedMainAccount === null?"Create": "Update"}}
+                </button>
+            </div>
+        </div>
+    </div>
+</form>

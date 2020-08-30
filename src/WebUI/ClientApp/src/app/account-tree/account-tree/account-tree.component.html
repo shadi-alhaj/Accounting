@@ -1,0 +1,21 @@
+<div class="card mat-elevation-z8">
+    <div class="card-header">
+        <h1>{{pageTitle}}</h1>
+    </div>
+    <div class="card-bdoy">
+        <mat-tab-group>
+            <mat-tab label="General Ledger">
+                <app-general-ledger-account></app-general-ledger-account>
+            </mat-tab>
+            <mat-tab label="Main Account">
+                <app-main-account></app-main-account>
+            </mat-tab>
+            <mat-tab label="Total Account">
+                <app-total-account></app-total-account>
+            </mat-tab>
+            <mat-tab label="Details Account">
+                <app-detail-account></app-detail-account>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+</div>

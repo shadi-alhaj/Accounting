@@ -1,0 +1,59 @@
+<mat-toolbar>
+    <span>
+        {{finYearSvc.selectedFinanceYear === null ? 'New Finance Year':'Finance Year Details'}}
+    </span>
+    <span class="fill-remaining-space">
+    </span>
+    <button class="btn close float-right" (click)="onClose()" tabindex="-1">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</mat-toolbar>
+<form [formGroup]="finYearSvc.financeYearForm" (submit)="onSubmit()">
+   
+    <app-customer-lov *ngIf="finYearSvc.selectedFinanceYear === null"
+                      (selectedCustomer)="getCustomerId($event)">
+    </app-customer-lov>  
+
+    <div class="form-group" *ngIf="finYearSvc.selectedFinanceYear !== null">
+        <label for="">Customer Name</label>
+        <input type="text" 
+               class="form-control"
+               formControlName="customerNameAr"
+               [readOnly]="true">
+    </div>
+   
+    <div class="form-group">
+        <label for="">Year</label>
+        <input type="number" 
+               class="form-control"
+               formControlName="year"
+               [ngClass]="{'is-invalid': finYearSvc.financeYearForm.get('year').errors && 
+                                        (finYearSvc.financeYearForm.get('year').touched || 
+                                         finYearSvc.financeYearForm.get('year').dirty)  }" />
+
+                    <span class="invalid-feedback"> 
+                        <span *ngIf="finYearSvc.financeYearForm.get('year').errors?.required">
+                            This Field is mandatory, Please enter finance year
+                        </span>                   
+                        <span *ngIf="finYearSvc.financeYearForm.get('year').errors?.maxlength">
+                            Finance year can not exceed 9999
+                        </span>
+                        <span *ngIf="finYearSvc.financeYearForm.get('year').errors?.minlength">
+                            Finance year can not exceed 9999
+                        </span>
+                    </span>
+                    <span class="text-danger" *ngIf="errorMessages.Year">
+                        {{errorMessages.Year}}
+                    </span>
+    </div>
+    <div class="modal-footer">
+        <div class="clearfix">
+            <div class="float-right">
+                <button class="btn btn-default mr-1" (click)="onClose(); $event.preventDefault()">Cancel</button>
+                <button class="btn btn-primary" [disabled]="!finYearSvc.financeYearForm.valid">
+                    {{finYearSvc.selectedFinanceYear == null?"Create": "Update"}}
+                </button>
+            </div>
+        </div>
+    </div>
+</form>

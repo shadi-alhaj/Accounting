@@ -1,0 +1,46 @@
+<div class="card">
+    <div class="card-header">
+        <span>
+            {{pageTitle}}
+        </span>
+        <span class="fill-remaining-space">
+        </span>
+        <button class="btn close float-right" (click)="onClose()" tabindex="-1">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="card-body">
+        <div class="table table-bordered table-striped table-hover" style="width: 100%;">
+            <thead>
+                <th>
+                    ID
+                </th>
+                <th>
+                    General Account Name
+                </th>
+            </thead>
+            <tbody>
+                <tr *ngFor="let gl of glVm.lists">
+                    <td> {{gl.glIdByCustomer}} </td>
+                    <td>  {{gl.glNameAr}} </td>
+                </tr>
+            </tbody>
+        </div>
+        <!-- <div class="row">
+            <div class="col-md-3">
+                ID
+            </div>
+            <div class="col-md-9">
+                General Account Name
+            </div>
+        </div>
+        <div class="table row" *ngFor="let gl of glVm.lists">
+            <div class="col-md-3">
+                {{gl.glIdByCustomer}}
+            </div>
+            <div class="col-md-9">
+                {{gl.glNameAr}}
+            </div>
+        </div> -->
+    </div>
+</div>

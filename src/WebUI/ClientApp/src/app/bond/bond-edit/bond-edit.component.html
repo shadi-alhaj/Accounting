@@ -1,0 +1,76 @@
+<mat-toolbar>
+    <span>
+        {{bondSvc.selectedBond === null ? 'New Bond':'Bond Details'}}
+    </span>
+    <span class="fill-remaining-space">
+    </span>
+    <button class="btn close float-right" (click)="onClose()" tabindex="-1">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</mat-toolbar>
+<form [formGroup]="bondSvc.bondForm" (submit)="onSubmit()">
+    
+    <div class="form-group">
+        <label for="">ID</label>
+        <input type="text" 
+               class="form-control"
+               formControlName="bondUserId"
+               [readOnly]="true">
+    </div>
+
+    <div class="form-group">
+        <label for="">Intial SNo</label>
+        <input type="number" 
+               class="form-control"
+               formControlName="intialSNo">
+    </div>
+    
+    <div class="form-group">
+        <label for="">Bond Name (Ar)</label>
+        <input type="text" 
+               class="form-control"
+               formControlName="bondNameAr">
+    </div>
+
+    <div class="form-group">
+        <label for="">Bond Name (En)</label>
+        <input type="text" 
+               class="form-control"
+               formControlName="bondNameEn">
+    </div>
+   
+    <!-- <div class="form-group">
+        <label for="">Year</label>
+        <input type="number" 
+               class="form-control"
+               formControlName="year"
+               [ngClass]="{'is-invalid': bondSvc.bondForm.get('year').errors && 
+                                        (bondSvc.bondForm.get('year').touched || 
+                                         bondSvc.bondForm.get('year').dirty)  }" />
+
+                    <span class="invalid-feedback"> 
+                        <span *ngIf="bondSvc.bondForm.get('year').errors?.required">
+                            This Field is mandatory, Please enter finance year
+                        </span>                   
+                        <span *ngIf="bondSvc.bondForm.get('year').errors?.maxlength">
+                            Finance year can not exceed 9999
+                        </span>
+                        <span *ngIf="bondSvc.bondForm.get('year').errors?.minlength">
+                            Finance year can not exceed 9999
+                        </span>
+                    </span>
+                    <span class="text-danger" *ngIf="errorMessages.Year">
+                        {{errorMessages.Year}}
+                    </span>
+    </div> -->
+    <div class="modal-footer">
+        <div class="clearfix">
+            <div class="float-right">
+                <button class="btn btn-default mr-1" (click)="onClose(); $event.preventDefault()">Cancel</button>
+                <button class="btn btn-primary" [disabled]="!bondSvc.bondForm.valid">
+                    {{bondSvc.selectedBond == null?"Create": "Update"}}
+                </button>
+            </div>
+        </div>
+    </div>
+</form>

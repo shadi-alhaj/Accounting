@@ -1,0 +1,205 @@
+<div class="card">
+    <div class="card-header">
+        <h1>{{customerSvc.selectedCustomer == null? 'New Customer' : 'Customer Details'}}</h1>
+    </div>
+    <div class="card-body">
+        <form [formGroup]="customerSvc.customerForm" autocomplete="off" (submit)="onSubmit()">
+            <div class="row">
+                <div class="col form-gorup">
+                    <label for="">Customer Name (Ar)</label>
+                    <input type="text" 
+                           class="form-control" 
+                           formControlName="customerNameAr"
+                           [ngClass]="{'is-invalid':  customerSvc.customerForm.get('customerNameAr').errors && 
+                                                     (customerSvc.customerForm.get('customerNameAr').touched || 
+                                                      customerSvc.customerForm.get('customerNameAr').dirty)  }" />
+
+                    <span class="invalid-feedback">
+                        <span *ngIf="customerSvc.customerForm.get('customerNameAr').errors?.required">
+                            This Field is mandatory, Please enter Customer Name (Ar)
+                        </span>
+                        <span *ngIf="customerSvc.customerForm.get('customerNameAr').errors?.maxlength">
+                            Customer Name (Ar) can not exceed 250 characters 
+                        </span>
+                    </span>
+                </div>
+                <div class="col form-gorup">
+                    <label for="">Customer Name (En)</label>
+                    <input type="text" 
+                           class="form-control" 
+                           formControlName="customerNameEn"
+                           [ngClass]="{'is-invalid':  customerSvc.customerForm.get('customerNameEn').errors && 
+                                                     (customerSvc.customerForm.get('customerNameEn').touched || 
+                                                      customerSvc.customerForm.get('customerNameEn').dirty)  }" />
+
+                    <span class="invalid-feedback">                    
+                        <span *ngIf="customerSvc.customerForm.get('customerNameEn').errors?.maxlength">
+                            Customer Name (En) can not exceed 250 characters
+                        </span>
+                    </span>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="">Tax Number</label>
+                <input type="text"
+                       class="form-control"
+                       formControlName="taxNo"
+                       [ngClass]="{'is-invalid':      customerSvc.customerForm.get('taxNo').errors && 
+                                                     (customerSvc.customerForm.get('taxNo').touched || 
+                                                      customerSvc.customerForm.get('taxNo').dirty)  }" />
+
+                <span class="invalid-feedback">                    
+                    <span *ngIf="customerSvc.customerForm.get('taxNo').errors?.maxlength">
+                        Tax No can not exceed 20 characters
+                    </span>
+                </span>
+            </div>
+            
+            <div class="row">
+                <div class="col form-gorup">
+                    <label for="">Fax Number</label>
+                    <input type="text" 
+                           class="form-control"
+                           formControlName="faxNo"
+                           [ngClass]="{'is-invalid':  customerSvc.customerForm.get('faxNo').errors && 
+                                                     (customerSvc.customerForm.get('faxNo').touched || 
+                                                      customerSvc.customerForm.get('faxNo').dirty)  }" />
+
+                    <span class="invalid-feedback">                    
+                        <span *ngIf="customerSvc.customerForm.get('faxNo').errors?.maxlength">
+                            Fax No can not exceed 20 characters
+                        </span>
+                    </span>
+                </div>
+                <div class="col form-gorup">
+                    <label for="">Phone Number</label>
+                    <input type="text" 
+                           class="form-control"
+                           formControlName="phoneNo"
+                           [ngClass]="{'is-invalid':  customerSvc.customerForm.get('phoneNo').errors && 
+                                                     (customerSvc.customerForm.get('phoneNo').touched || 
+                                                      customerSvc.customerForm.get('phoneNo').dirty)  }" />
+
+                    <span class="invalid-feedback">                    
+                        <span *ngIf="customerSvc.customerForm.get('phoneNo').errors?.maxlength">
+                            Phone number can not exceed 20 characters
+                        </span>
+                    </span>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col form-gorup">
+                    <label for="">Primary Mobile Number</label>
+                    <input type="text" 
+                           class="form-control"
+                           formControlName="mobileNo1"
+                           [ngClass]="{'is-invalid':  customerSvc.customerForm.get('mobileNo1').errors && 
+                                                     (customerSvc.customerForm.get('mobileNo1').touched || 
+                                                      customerSvc.customerForm.get('mobileNo1').dirty)  }" />
+
+                    <span class="invalid-feedback">                    
+                        <span *ngIf="customerSvc.customerForm.get('mobileNo1').errors?.maxlength">
+                            Primary Mobile Number can not exceed 14 characters
+                        </span>
+                    </span>
+                </div>
+                <div class="col form-gorup">
+                    <label for="">Secondary Mobile Number</label>
+                    <input type="text"
+                           class="form-control"
+                           formControlName="mobileNo2"
+                           [ngClass]="{'is-invalid':  customerSvc.customerForm.get('mobileNo2').errors && 
+                                                     (customerSvc.customerForm.get('mobileNo2').touched || 
+                                                      customerSvc.customerForm.get('mobileNo2').dirty)  }" />
+
+                    <span class="invalid-feedback">                    
+                        <span *ngIf="customerSvc.customerForm.get('mobileNo2').errors?.maxlength">
+                            Secondary Mobile Number can not exceed 14 characters
+                        </span>
+                    </span>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col form-gorup">
+                    <label for="">Country</label>
+                    <input type="text" 
+                           class="form-control"
+                           formControlName="country"
+                           [ngClass]="{'is-invalid':  customerSvc.customerForm.get('country').errors && 
+                                                     (customerSvc.customerForm.get('country').touched || 
+                                                      customerSvc.customerForm.get('country').dirty)  }" />
+
+                    <span class="invalid-feedback">                    
+                        <span *ngIf="customerSvc.customerForm.get('country').errors?.maxlength">
+                            Country can not exceed 100 characters
+                        </span>
+                    </span>
+                </div>
+                <div class="col form-gorup">
+                    <label for="">City</label>
+                    <input type="text" 
+                           class="form-control"
+                           formControlName="city"
+                           [ngClass]="{'is-invalid':  customerSvc.customerForm.get('city').errors && 
+                                                     (customerSvc.customerForm.get('city').touched || 
+                                                      customerSvc.customerForm.get('city').dirty)  }" />
+
+                    <span class="invalid-feedback">                    
+                        <span *ngIf="customerSvc.customerForm.get('city').errors?.maxlength">
+                            City can not exceed 100 characters
+                        </span>
+                    </span>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="">Address</label>
+                <input type="text" 
+                       class="form-control"
+                       formControlName="address"
+                       [ngClass]="{'is-invalid':      customerSvc.customerForm.get('address').errors && 
+                                                     (customerSvc.customerForm.get('address').touched || 
+                                                      customerSvc.customerForm.get('address').dirty)  }" />
+
+                    <span class="invalid-feedback">                    
+                        <span *ngIf="customerSvc.customerForm.get('address').errors?.maxlength">
+                            Address can not exceed 250 characters
+                        </span>
+                    </span>
+            </div>
+            
+            <div class="form-group">
+                <label for="">Email</label>
+                <input type="text" 
+                       class="form-control" 
+                       formControlName="email"
+                       [ngClass]="{'is-invalid':      customerSvc.customerForm.get('email').errors && 
+                                                     (customerSvc.customerForm.get('email').touched || 
+                                                      customerSvc.customerForm.get('email').dirty)  }" />
+
+                    <span class="invalid-feedback"> 
+                        <span *ngIf="customerSvc.customerForm.get('email').errors?.email">
+                            Invalid Email Address
+                        </span>                   
+                        <span *ngIf="customerSvc.customerForm.get('email').errors?.maxlength">
+                            Email can not exceed 100 characters
+                        </span>
+                    </span>
+            </div>
+
+            <div class="modal-footer">
+                <div class="clearfix">
+                    <div class="float-right">
+                        <button class="btn btn-default mr-1" (click)="onClose(); $event.preventDefault()">Cancel</button>
+                        <button class="btn btn-primary" [disabled]="!customerSvc.customerForm.valid">
+                            {{customerSvc.selectedCustomer == null?"Create": "Update"}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

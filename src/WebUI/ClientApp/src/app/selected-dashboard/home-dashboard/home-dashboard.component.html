@@ -1,0 +1,36 @@
+<!-- <div class="row form-inline mb-5 container" style="text-align: center;">
+    <div class="form-group col-md-6">
+        <label for="">Customer Name:</label>
+        <label for="" class="form-control">{{customerName}}</label>
+    </div>
+    <div class="form-group col-md-6">
+        <label for="">Finance Year:</label>
+        <label for="" class="form-control">{{financeYear}}</label>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md 4">
+       <app-side-bar-menu> </app-side-bar-menu>
+    </div>
+    <div class="col-md 8">
+        Customer Options
+    </div>
+</div> -->
+<div class="container row form-inline mb-2" style="text-align: center; border:1px solid darkblue; padding:5px;">
+    <div class="form-group col-md-6">
+        <label for="">Customer Name:</label>
+        <label for="" class="form-control">{{customerName}}</label>
+    </div>
+    <div class="form-group col-md-6">
+        <label for="">Finance Year:</label>
+        <label for="" class="form-control">{{financeYear}}</label>
+    </div>
+</div>
+<div class="container row" style=" padding-left: 0; padding-right: 0; margin:0;height: -webkit-fill-available;">
+    <div class="col-md-1 flex-list" style=" padding-left: 0;padding-right: 0;  ">
+      <app-side-bar-menu></app-side-bar-menu>
+    </div>
+    <div class="col-md-11" style="background-color: rgb(229, 229, 229);padding:0;">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
