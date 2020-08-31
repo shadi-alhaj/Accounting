@@ -16,7 +16,8 @@ namespace Accounting.Infrastructure.Persistence.Configurations
 
             builder.HasOne(b => b.Customer)
                 .WithMany(c => c.Bonds)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasForeignKey(b => b.CustomerId);
 
             builder.Property(p => p.BondUserId)
                 .HasColumnName($"{tablePrefix}USER_ID");

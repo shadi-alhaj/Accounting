@@ -16,7 +16,8 @@ namespace Accounting.Infrastructure.Persistence.Configurations
 
             builder.HasOne(g => g.Customer)
                 .WithMany(c => c.GeneralLedgers)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasForeignKey(g => g.CustomerId);
 
             builder.Property(p => p.GLNameAr)
                 .HasColumnName($"{tablePrefix}NAME_AR")
@@ -39,6 +40,8 @@ namespace Accounting.Infrastructure.Persistence.Configurations
                 .HasColumnName($"{tablePrefix}CUSTOMER_ID");
 
             builder.SetAuditableFieldsNaming(tablePrefix);
+
+            
         }
     }
 }

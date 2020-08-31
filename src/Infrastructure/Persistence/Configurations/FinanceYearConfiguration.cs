@@ -16,7 +16,8 @@ namespace Accounting.Infrastructure.Persistence.Configurations
 
             builder.HasOne(f => f.Customer)
                 .WithMany(c => c.FinanceYears)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasForeignKey(f => f.CustomerId);
 
             builder.Property(p => p.Year)
                 .HasColumnName($"{tablePrefix}YEAR")

@@ -172,6 +172,22 @@ namespace Accounting.Infrastructure.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ACC_CUSTOMERS");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("1c16ab2f-a0e2-4878-aad8-6cb7771cb61e"),
+                            Address = "Macca St.",
+                            City = "Amman",
+                            Country = "Jordan",
+                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CustomerId = 0,
+                            CustomerNameAr = "مكتب المدير",
+                            CustomerNameEn = "Almodeer Office",
+                            IsActive = false,
+                            MobileNo1 = "0795980824",
+                            TaxNo = "123456"
+                        });
                 });
 
             modelBuilder.Entity("Accounting.Domain.Entities.FinanceYear", b =>
@@ -297,9 +313,6 @@ namespace Accounting.Infrastructure.Persistence.Migrations
                         .HasColumnName("ACC_MAIN_ACCOUNT_GL_ID")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("GeneralLedgerId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<bool>("IsActive")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("ACC_MAIN_ACCOUNT_IS_ACTIVE")
@@ -334,7 +347,7 @@ namespace Accounting.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.HasIndex("GeneralLedgerId");
+                    b.HasIndex("GeneralLeadgerId");
 
                     b.ToTable("ACC_MAIN_ACCOUNTS");
                 });
@@ -440,9 +453,6 @@ namespace Accounting.Infrastructure.Persistence.Migrations
                         .HasColumnName("ACC_TOTAL_ACCOUNT_GL_ID")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("GeneralLedgerId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<bool>("IsActive")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("ACC_TOTAL_ACCOUNT_IS_ACTIVE")
@@ -485,7 +495,7 @@ namespace Accounting.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.HasIndex("GeneralLedgerId");
+                    b.HasIndex("GeneralLeadgerId");
 
                     b.HasIndex("MainAccountId");
 
@@ -811,8 +821,9 @@ namespace Accounting.Infrastructure.Persistence.Migrations
 
                     b.HasOne("Accounting.Domain.Entities.GeneralLedger", "GeneralLedger")
                         .WithMany("MainAccounts")
-                        .HasForeignKey("GeneralLedgerId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("GeneralLeadgerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Accounting.Domain.Entities.TodoItem", b =>
@@ -834,8 +845,9 @@ namespace Accounting.Infrastructure.Persistence.Migrations
 
                     b.HasOne("Accounting.Domain.Entities.GeneralLedger", "GeneralLedger")
                         .WithMany("TotalAccounts")
-                        .HasForeignKey("GeneralLedgerId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("GeneralLeadgerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("Accounting.Domain.Entities.MainAccount", "MainAccount")
                         .WithMany("TotalAccounts")

@@ -19,11 +19,13 @@ namespace Accounting.Infrastructure.Persistence.Configurations
 
             builder.HasOne(m => m.Customer)
                 .WithMany(c => c.MainAccounts)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasForeignKey(m => m.CustomerId);
 
             builder.HasOne(m => m.GeneralLedger)
                 .WithMany(g => g.MainAccounts)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasForeignKey(m => m.GeneralLeadgerId);
 
             builder.Property(p => p.MainAccountNameAr)
                 .HasColumnName($"{tablePrefix}NAME_AR")

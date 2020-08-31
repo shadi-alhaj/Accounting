@@ -79,6 +79,21 @@ namespace Accounting.Infrastructure.Persistence.Configurations
                 .HasDefaultValue(true);
 
             builder.SetAuditableFieldsNaming(tablePrefix);
+
+
+            builder.HasData(
+                new Customer
+                {
+                    Id = Guid.NewGuid(),
+                    CustomerNameAr = "مكتب المدير",
+                    CustomerNameEn = "Almodeer Office",
+                    MobileNo1 = "0795980824",
+                    Country = "Jordan",
+                    City = "Amman",
+                    Address = "Macca St.",
+                    TaxNo = "123456"
+                }
+            );
         }
     }
 }

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Accounting.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200827060312_AddMainAccountEntity")]
-    partial class AddMainAccountEntity
+    [Migration("20200831044257_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -299,9 +299,6 @@ namespace Accounting.Infrastructure.Persistence.Migrations
                         .HasColumnName("ACC_MAIN_ACCOUNT_GL_ID")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("GeneralLedgerId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<bool>("IsActive")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("ACC_MAIN_ACCOUNT_IS_ACTIVE")
@@ -336,7 +333,7 @@ namespace Accounting.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.HasIndex("GeneralLedgerId");
+                    b.HasIndex("GeneralLeadgerId");
 
                     b.ToTable("ACC_MAIN_ACCOUNTS");
                 });
@@ -417,6 +414,78 @@ namespace Accounting.Infrastructure.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("TodoLists");
+                });
+
+            modelBuilder.Entity("Accounting.Domain.Entities.TotalAccount", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("ID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnName("ACC_TOTAL_ACCOUNT_CRT_DATE")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnName("ACC_TOTAL_ACCOUNT_CRT_BY_USR_ID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnName("ACC_TOTAL_ACCOUNT_CUSTOMER_ID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("GeneralLeadgerId")
+                        .HasColumnName("ACC_TOTAL_ACCOUNT_GL_ID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("ACC_TOTAL_ACCOUNT_IS_ACTIVE")
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
+
+                    b.Property<bool>("IsClose")
+                        .HasColumnName("ACC_TOTAL_ACCOUNT_IS_CLOSE")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnName("ACC_TOTAL_ACCOUNT_UPD_DATE")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnName("ACC_TOTAL_ACCOUNT_UPD_BY_USR_ID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("MainAccountId")
+                        .HasColumnName("ACC_TOTAL_ACCOUNT_MAIN_ACCOUNT_ID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("TotalAccountIdByCustomer")
+                        .HasColumnName("ACC_TOTAL_ACCOUNT_ID_BY_CUSTOMER")
+                        .HasColumnType("int")
+                        .HasMaxLength(250);
+
+                    b.Property<string>("TotalAccountNameAr")
+                        .IsRequired()
+                        .HasColumnName("ACC_TOTAL_ACCOUNT_NAME_AR")
+                        .HasColumnType("nvarchar(250)")
+                        .HasMaxLength(250);
+
+                    b.Property<string>("TotalAccountNameEn")
+                        .HasColumnName("ACC_TOTAL_ACCOUNT_NAME_EN")
+                        .HasColumnType("nvarchar(250)")
+                        .HasMaxLength(250);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("GeneralLeadgerId");
+
+                    b.HasIndex("MainAccountId");
+
+                    b.ToTable("ACC_TOTAL_ACCOUNTS");
                 });
 
             modelBuilder.Entity("Accounting.Infrastructure.Identity.ApplicationUser", b =>
@@ -738,8 +807,9 @@ namespace Accounting.Infrastructure.Persistence.Migrations
 
                     b.HasOne("Accounting.Domain.Entities.GeneralLedger", "GeneralLedger")
                         .WithMany("MainAccounts")
-                        .HasForeignKey("GeneralLedgerId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("GeneralLeadgerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Accounting.Domain.Entities.TodoItem", b =>
@@ -748,6 +818,27 @@ namespace Accounting.Infrastructure.Persistence.Migrations
                         .WithMany("Items")
                         .HasForeignKey("ListId")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Accounting.Domain.Entities.TotalAccount", b =>
+                {
+                    b.HasOne("Accounting.Domain.Entities.Customer", "Customer")
+                        .WithMany("TotalAccounts")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Accounting.Domain.Entities.GeneralLedger", "GeneralLedger")
+                        .WithMany("TotalAccounts")
+                        .HasForeignKey("GeneralLeadgerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Accounting.Domain.Entities.MainAccount", "MainAccount")
+                        .WithMany("TotalAccounts")
+                        .HasForeignKey("MainAccountId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
