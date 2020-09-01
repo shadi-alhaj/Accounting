@@ -38,8 +38,6 @@ export class MainAccountComponent implements OnInit {
   getMainAccountList(){
     this.mainAccountsClient.mainAccounts(this.accountTreeSvc.customerId).subscribe(
       result => {
-        console.log(result);
-        
         this.dataSource = new MatTableDataSource(result.lists);
         setTimeout(() => this.dataSource.paginator = this.paginator);
       },

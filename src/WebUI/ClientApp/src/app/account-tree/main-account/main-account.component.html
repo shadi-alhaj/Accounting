@@ -11,13 +11,13 @@
             </ng-container>
 
             <ng-container matColumnDef="mAccountNameAr">
-                <th mat-header-cell *matHeaderCellDef>General Ledger Name (Ar)</th>
+                <th mat-header-cell *matHeaderCellDef>Main Account Name (Ar)</th>
                 <td mat-cell *matCellDef="let row">{{row.mainAccountNameAr}}</td>
             </ng-container>
 
             <ng-container matColumnDef="mAccountNameEn">
-                <th mat-header-cell *matHeaderCellDef>General Ledger Name (En)</th>
-                <td mat-cell *matCellDef="let row">{{row.mainAccountNameEn == ''? '-': row.mAccountNameEn}}</td>
+                <th mat-header-cell *matHeaderCellDef>Main Account Name (En)</th>
+                <td mat-cell *matCellDef="let row">{{row.mainAccountNameEn == ''? '-': row.mainAccountNameEn}}</td>
             </ng-container>
 
             <ng-container matColumnDef="glNameAr">

@@ -4,3 +4,8 @@ table {
   td, th {
     width: 25%;
   }
+
+  .row-padding {
+    margin-top: 25px;
+    margin-bottom: 25px;
+}

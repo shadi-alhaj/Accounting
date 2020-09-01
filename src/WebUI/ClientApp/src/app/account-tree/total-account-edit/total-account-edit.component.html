@@ -1,1 +1,104 @@
-<p>total-account-edit works!</p>
+
+<mat-toolbar>
+    <span>
+        {{accountTreeSvc.selectedTotalAccount === null ? 'New Total Account':'Total Account Details'}}
+    </span>
+    <span class="fill-remaining-space">
+    </span>
+    <button class="btn close float-right" (click)="onClose()" tabindex="-1">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</mat-toolbar>
+<form [formGroup]="accountTreeSvc.totalAccountForm">
+    <div class="form-row mt-2">
+        <div class="col-md-4">
+            <label for="">Main Account</label>
+        </div>
+        <div class="col-md-2">
+            <input type="number" 
+                   class="form-control"
+                   formControlName="mainAccountIdByCustomer"
+                   (keyup.enter)="getMainAndTotalAccount(accountTreeSvc.totalAccountForm.get('mainAccountIdByCustomer').value);"
+                   [readOnly]="accountTreeSvc.selectedTotalAccount !== null">
+        </div>
+        <div class="col-md-1">
+            <button class="btn btn-primary"
+            [disabled]="accountTreeSvc.selectedTotalAccount !== null">...</button>
+        </div>
+        <div class="col-md-4">
+            <input type="text" 
+                   class="form-control"
+                   formControlName="mainAccountNameAr"                                    
+                   [readOnly]="true">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="">ID</label>
+        <input type="number" 
+               class="form-control"
+               style="width: 25%;"
+               formControlName="totalAccountIdByCustomer"
+               [readOnly]="true">
+    </div>
+
+    <div class="form-group">
+        <label for="">Total Account Name (Ar)</label>
+        <input type="text" 
+               class="form-control"
+               #mainAccountNameAr
+               formControlName="totalAccountNameAr"
+               style="text-align: right;" >
+    </div>
+
+    <div class="form-group">
+        <label for="">Total Account Name (En)</label>
+        <input type="text" 
+               class="form-control"
+               formControlName="totalAccountNameEn">
+    </div>
+
+    <div class="form-check mb-2">
+        <input type="checkbox" 
+               class="form-check-input" 
+               formControlName="isClose"/>
+        <label class="form-check-label">Is Close?</label> 
+      </div>
+   
+    <!-- <div class="form-group">
+        <label for="">Year</label>
+        <input type="number" 
+               class="form-control"
+               formControlName="year"
+               [ngClass]="{'is-invalid': accountTreeSvc.glForm.get('year').errors && 
+                                        (accountTreeSvc.glForm.get('year').touched || 
+                                         accountTreeSvc.glForm.get('year').dirty)  }" />
+
+                    <span class="invalid-feedback"> 
+                        <span *ngIf="accountTreeSvc.glForm.get('year').errors?.required">
+                            This Field is mandatory, Please enter finance year
+                        </span>                   
+                        <span *ngIf="accountTreeSvc.glForm.get('year').errors?.maxlength">
+                            Finance year can not exceed 9999
+                        </span>
+                        <span *ngIf="accountTreeSvc.glForm.get('year').errors?.minlength">
+                            Finance year can not exceed 9999
+                        </span>
+                    </span>
+                    <span class="text-danger" *ngIf="errorMessages.Year">
+                        {{errorMessages.Year}}
+                    </span>
+    </div> -->
+    <div class="modal-footer">
+        <div class="clearfix">
+            <div class="float-right">
+                <button class="btn btn-default mr-1" (click)="onClose(); $event.preventDefault()">Cancel</button>
+                <button class="btn btn-primary" 
+                        [disabled]="!accountTreeSvc.totalAccountForm.valid"
+                        (click)="onSubmit()">
+                    {{accountTreeSvc.selectedTotalAccount === null?"Create": "Update"}}
+                </button>
+            </div>
+        </div>
+    </div>
+</form>

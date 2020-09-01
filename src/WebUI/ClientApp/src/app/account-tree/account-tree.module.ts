@@ -27,7 +27,8 @@ import { MainAccountEditComponent } from './main-account-edit/main-account-edit.
   ],
   entryComponents: [
     GeneralLedgerAccountEditComponent,
-    MainAccountEditComponent
+    MainAccountEditComponent,
+    TotalAccountEditComponent
   ]
 })
 export class AccountTreeModule { }

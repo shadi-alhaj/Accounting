@@ -726,7 +726,78 @@
         }
       }
     },
-    "/api/MainAccounts/{customerId}/{id}": {
+    "/api/MainAccounts": {
+      "get": {
+        "tags": [
+          "MainAccounts"
+        ],
+        "operationId": "MainAccounts_MainAccount",
+        "parameters": [
+          {
+            "name": "mainAccountIdByCustomer",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "customerId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MainAccountDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "MainAccounts"
+        ],
+        "operationId": "MainAccounts_CreateMainAccount",
+        "requestBody": {
+          "x-name": "command",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMainAccountCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "guid"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/MainAccounts/MaxMainAccountIdByCustomer/{customerId}/{id}": {
       "get": {
         "tags": [
           "MainAccounts"
@@ -762,39 +833,6 @@
                 "schema": {
                   "type": "integer",
                   "format": "int32"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/MainAccounts": {
-      "post": {
-        "tags": [
-          "MainAccounts"
-        ],
-        "operationId": "MainAccounts_CreateMainAccount",
-        "requestBody": {
-          "x-name": "command",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateMainAccountCommand"
-              }
-            }
-          },
-          "required": true,
-          "x-position": 1
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string",
-                  "format": "guid"
                 }
               }
             }
@@ -1232,6 +1270,190 @@
             "JWT": []
           }
         ]
+      }
+    },
+    "/api/TotalAccounts/{customerId}": {
+      "get": {
+        "tags": [
+          "TotalAccounts"
+        ],
+        "operationId": "TotalAccounts_TotalAccounts",
+        "parameters": [
+          {
+            "name": "customerId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TotalAccountVm"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/TotalAccounts/{customerId}/{id}": {
+      "get": {
+        "tags": [
+          "TotalAccounts"
+        ],
+        "operationId": "TotalAccounts_MaxTotalAccountIdByCustomer",
+        "parameters": [
+          {
+            "name": "customerId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/TotalAccounts": {
+      "post": {
+        "tags": [
+          "TotalAccounts"
+        ],
+        "operationId": "TotalAccounts_CreateTotalAccount",
+        "requestBody": {
+          "x-name": "command",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTotalAccountCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "guid"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/TotalAccounts/{id}": {
+      "put": {
+        "tags": [
+          "TotalAccounts"
+        ],
+        "operationId": "TotalAccounts_UpdateTotalAccount",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "command",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateTotalAccountCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "TotalAccounts"
+        ],
+        "operationId": "TotalAccounts_DeleteTotalAccount",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/api/WeatherForecast": {
@@ -2020,6 +2242,113 @@
           "title": {
             "type": "string",
             "nullable": true
+          }
+        }
+      },
+      "TotalAccountVm": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "lists": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/TotalAccountDto"
+            }
+          }
+        }
+      },
+      "TotalAccountDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "guid"
+          },
+          "totalAccountIdByCustomer": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalAccountNameAr": {
+            "type": "string",
+            "nullable": true
+          },
+          "totalAccountNameEn": {
+            "type": "string",
+            "nullable": true
+          },
+          "customerId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "generalLeadgerId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "mainAccountId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "mainAccountNameAr": {
+            "type": "string",
+            "nullable": true
+          },
+          "isClose": {
+            "type": "boolean"
+          },
+          "isActive": {
+            "type": "boolean"
+          }
+        }
+      },
+      "CreateTotalAccountCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "totalAccountIdByCustomer": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalAccountNameAr": {
+            "type": "string",
+            "nullable": true
+          },
+          "totalAccountNameEn": {
+            "type": "string",
+            "nullable": true
+          },
+          "customerId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "mainAccountId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "isClose": {
+            "type": "boolean"
+          }
+        }
+      },
+      "UpdateTotalAccountCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "guid"
+          },
+          "totalAccountNameAr": {
+            "type": "string",
+            "nullable": true
+          },
+          "totalAccountNameEn": {
+            "type": "string",
+            "nullable": true
+          },
+          "isClose": {
+            "type": "boolean"
           }
         }
       },

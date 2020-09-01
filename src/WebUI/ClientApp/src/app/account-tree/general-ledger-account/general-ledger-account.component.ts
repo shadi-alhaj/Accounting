@@ -35,6 +35,11 @@ export class GeneralLedgerAccountComponent implements OnInit {
   ngOnInit() {
     this.getGeneralLeadgerList();
   }
+  
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
 
   getGeneralLeadgerList() {
     this.glClients.generalLedgers(this.accountTreeSvc.customerId).subscribe(

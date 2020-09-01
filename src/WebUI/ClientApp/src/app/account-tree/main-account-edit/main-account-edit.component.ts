@@ -1,4 +1,4 @@
-import { GeneralLedgersClient, MainAccountsClient, CreateMainAccountCommand } from 'src/app/accounting-api';
+import { GeneralLedgersClient, MainAccountsClient, CreateMainAccountCommand, UpdateMainAccountCommand } from 'src/app/accounting-api';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AccountTreeService } from '../account-tree.service';
 import { MatDialogRef, MatDialog } from '@angular/material/dialog';
@@ -10,7 +10,7 @@ import { GeneralLedgerListComponent } from 'src/app/shared/general-ledger-list/g
   styleUrls: ['./main-account-edit.component.css']
 })
 export class MainAccountEditComponent implements OnInit {
-  
+
   errorMessages = {};
 
   @ViewChild('mainAccountNameAr', { static: false }) nameFiled: ElementRef;
@@ -72,11 +72,22 @@ export class MainAccountEditComponent implements OnInit {
     }
   }
   updateMainAccount() {
-    throw new Error("Method not implemented.");
+    let hasError = false;
+    this.mainAccountsClient.updateMainAccount(this.accountTreeSvc.selectedMainAccount,
+                UpdateMainAccountCommand.fromJS(this.accountTreeSvc.mainAccountForm.value))
+      .subscribe(result => {
+      },
+        error => {
+          this.errorMessages = JSON.parse(error.response);
+          hasError = true;
+        },
+        () => {
+          if (!hasError) {
+            this.onClose();
+          }
+        });
   }
   addNewMainAccount() {
-    console.log(this.accountTreeSvc.mainAccountForm.value);
-
     let hasError = false;
     this.mainAccountsClient.createMainAccount(CreateMainAccountCommand.fromJS(this.accountTreeSvc.mainAccountForm.value))
       .subscribe(result => {

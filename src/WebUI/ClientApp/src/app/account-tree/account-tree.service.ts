@@ -1,6 +1,5 @@
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Injectable } from '@angular/core';
-import { MainAccountDto } from '../accounting-api';
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +22,7 @@ export class AccountTreeService {
     this.customerId = customer.cusId;
     this.initalizeGlForm();
     this.intializeMainAccountForm();
+    this.initalizeTotalAccountForm();
   }
 
   initalizeGlForm(){
@@ -47,4 +47,20 @@ export class AccountTreeService {
       glNameAr:['', [Validators.required]]
     });
   }
+
+  initalizeTotalAccountForm(){
+    this.totalAccountForm = this.fb.group({
+      id: '',
+      totalAccountIdByCustomer: [null, [Validators.required]],
+      totalAccountNameAr: ['', [Validators.required]],
+      totalAccountNameEn: [''],
+      isClose: false,
+      customerId: ['', [Validators.required]],
+      generalLeadgerId: ['', [Validators.required]],
+      mainAccountId: [''],
+      mainAccountIdByCustomer:[null, [Validators.required]],
+      mainAccountNameAr:['', [Validators.required]]
+    });
+  }
 }
+

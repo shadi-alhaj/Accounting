@@ -6,11 +6,13 @@ using Microsoft.EntityFrameworkCore;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Linq;
+using System;
 
 namespace Accounting.Application.TotalAccounts.Queries.GetTotalAccounts
 {
     public class GetTotalAccountsQuery : IRequest<TotalAccountVm>
     {
+        public Guid  CustomerId { get; set; }
         public class GetTotalAccountsQueryHandler : IRequestHandler<GetTotalAccountsQuery, TotalAccountVm>
         {
             private readonly IApplicationDbContext _context;
@@ -26,9 +28,9 @@ namespace Accounting.Application.TotalAccounts.Queries.GetTotalAccounts
             {
                 var vm = new TotalAccountVm();
 
-                vm.Lists = await _context.TotalAccounts
+                vm.Lists = await _context.TotalAccounts.Where(t => t.CustomerId == request.CustomerId && t.IsActive).Include(t => t.MainAccount)
                     .ProjectTo<TotalAccountDto>(_mapper.ConfigurationProvider)
-                    //.OrderBy(t => t.Name)
+                    .OrderBy(t => t.TotalAccountIdByCustomer).ThenBy(t => t.MainAccountId)
                     .ToListAsync(cancellationToken);
 
                 return vm;
