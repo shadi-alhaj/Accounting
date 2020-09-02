@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Linq;
 using System;
+using Accounting.Application.MainAccounts.Queries.GetMainAccounts;
 
 namespace Accounting.Application.TotalAccounts.Queries.GetTotalAccounts
 {
@@ -28,10 +29,29 @@ namespace Accounting.Application.TotalAccounts.Queries.GetTotalAccounts
             {
                 var vm = new TotalAccountVm();
 
-                vm.Lists = await _context.TotalAccounts.Where(t => t.CustomerId == request.CustomerId && t.IsActive).Include(t => t.MainAccount)
-                    .ProjectTo<TotalAccountDto>(_mapper.ConfigurationProvider)
-                    .OrderBy(t => t.TotalAccountIdByCustomer).ThenBy(t => t.MainAccountId)
-                    .ToListAsync(cancellationToken);
+                vm.Lists = await _context.TotalAccounts
+                                .Where(t => t.CustomerId == request.CustomerId && t.IsActive)
+                                .Include(t => t.MainAccount)
+                                .Select(t => new TotalAccountDto
+                                {
+                                    Id  = t.Id,
+                                    TotalAccountNameAr = t.TotalAccountNameAr,
+                                    TotalAccountNameEn = t.TotalAccountNameEn,
+                                    IsClose = t.IsClose,
+                                    TotalAccountIdByCustomer = t.TotalAccountIdByCustomer,
+                                    MainAccountId = t.MainAccountId,
+                                    MainAccountIdByCustomer = t.MainAccount.MainAccountIdByCustomer,
+                                    MainAccountNameAr = t.MainAccount.MainAccountNameAr,
+                                    GeneralLeadgerId = t.MainAccount.GeneralLeadgerId
+                                    
+                                })
+                                .OrderBy(t => t.TotalAccountIdByCustomer).ThenBy(t => t.MainAccountId)
+                                .ToListAsync(cancellationToken);
+
+                //vm.Lists = await _context.TotalAccounts.Where(t => t.CustomerId == request.CustomerId && t.IsActive).Include(t => t.MainAccount)
+                //    .ProjectTo<TotalAccountDto>(_mapper.ConfigurationProvider)
+                //    .OrderBy(t => t.TotalAccountIdByCustomer).ThenBy(t => t.MainAccountId)
+                //    .ToListAsync(cancellationToken);
 
                 return vm;
             }

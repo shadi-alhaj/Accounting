@@ -21,7 +21,7 @@ export class AccountTreeService {
     const customer = JSON.parse(localStorage.getItem('customer'));
     this.customerId = customer.cusId;
     this.initalizeGlForm();
-    this.intializeMainAccountForm();
+    this.initalizeMainAccountForm();
     this.initalizeTotalAccountForm();
   }
 
@@ -35,7 +35,7 @@ export class AccountTreeService {
     });
   }
 
-  intializeMainAccountForm(){    
+  initalizeMainAccountForm(){    
     this.mainAccountForm = this.fb.group({
       id: '',
       mainAccountIdByCustomer: [null, [Validators.required]],
@@ -62,5 +62,20 @@ export class AccountTreeService {
       mainAccountNameAr:['', [Validators.required]]
     });
   }
+
+  initalizeDetailAccountForm(){
+    this.detailAccountForm = this.fb.group({
+      id: '',
+      detailAccountIdByCustomer: [null, [Validators.required]],
+      detailAccountNameAr: ['', [Validators.required]],
+      detailAccountNameEn: [''],
+      customerId: ['', [Validators.required]],
+      generalLeadgerId: ['', [Validators.required]],
+      mainAccountId: [''],
+      totalAccountId:[null, [Validators.required]],
+      totalAccountNameAr:['', [Validators.required]]
+    });
+  }
+
 }
 

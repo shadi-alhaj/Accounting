@@ -42,6 +42,7 @@ namespace Accounting.Application.TotalAccounts.Commands.CreateCommand
                     TotalAccountNameAr = request.TotalAccountNameAr,
                     TotalAccountNameEn = request.TotalAccountNameEn,
                     CustomerId = request.CustomerId,
+                    IsClose = request.IsClose,
                     MainAccountId = request.MainAccountId,
                     GeneralLeadgerId = glId
                 };

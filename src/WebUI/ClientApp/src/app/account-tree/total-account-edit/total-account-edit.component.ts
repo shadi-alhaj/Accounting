@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AccountTreeService } from '../account-tree.service';
-import { TotalAccountsClient, MainAccountsClient, CreateTotalAccountCommand } from 'src/app/accounting-api';
+import { TotalAccountsClient, MainAccountsClient, CreateTotalAccountCommand, UpdateTotalAccountCommand } from 'src/app/accounting-api';
 import { MatDialogRef, MatDialog } from '@angular/material/dialog';
 
 @Component({
@@ -68,7 +68,20 @@ export class TotalAccountEditComponent implements OnInit {
     }
   }
   updateTotalAccount() {
-    throw new Error("Method not implemented.");
+    let hasError = false;
+    this.totalAccountsClient.updateTotalAccount(this.accountTreeSvc.selectedTotalAccount,
+                UpdateTotalAccountCommand.fromJS(this.accountTreeSvc.totalAccountForm.value))
+      .subscribe(result => {
+      },
+        error => {
+          this.errorMessages = JSON.parse(error.response);
+          hasError = true;
+        },
+        () => {
+          if (!hasError) {
+            this.onClose();
+          }
+        });
   }
   addNewTotalAccount() {
     let hasError = false;

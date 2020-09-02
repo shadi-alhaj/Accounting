@@ -22,7 +22,10 @@
 
             <ng-container matColumnDef="isClose">
                 <th mat-header-cell *matHeaderCellDef>Is Close</th>
-                <td mat-cell *matCellDef="let row">{{row.isClose}}</td>
+                <td mat-cell  *matCellDef="let row">
+                    <mat-checkbox [(ngModel)]="row.isClose" [disabled]="true">                        
+                    </mat-checkbox>
+                </td>
             </ng-container> 
 
             <ng-container matColumnDef="mainAccountNameAr">

@@ -35,6 +35,7 @@ namespace Accounting.Infrastructure.Persistence
         public DbSet<GeneralLedger> GeneralLedgers { get; set; }
         public DbSet<MainAccount> MainAccounts { get; set; }
         public DbSet<TotalAccount> TotalAccounts { get; set; }
+        public DbSet<DetailAccount> DetailAccounts { get; set; }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {

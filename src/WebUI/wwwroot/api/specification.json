@@ -323,6 +323,37 @@
         }
       }
     },
+    "/api/DetailAccounts/customerId": {
+      "get": {
+        "tags": [
+          "DetailAccounts"
+        ],
+        "operationId": "DetailAccounts_DetailAccounts",
+        "parameters": [
+          {
+            "name": "customerId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DetailAccountVm"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/FinanceYears": {
       "get": {
         "tags": [
@@ -1790,6 +1821,64 @@
           }
         }
       },
+      "DetailAccountVm": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "lists": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/DetailAccountDto"
+            }
+          }
+        }
+      },
+      "DetailAccountDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "guid"
+          },
+          "detailAccountIdByCustomer": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "detailAccountNameAr": {
+            "type": "string",
+            "nullable": true
+          },
+          "detailAccountNameEn": {
+            "type": "string",
+            "nullable": true
+          },
+          "totalAccountNameAr": {
+            "type": "string",
+            "nullable": true
+          },
+          "customerId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "generalLeadgerId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "mainAccountId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "totalAccountId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "isActive": {
+            "type": "boolean"
+          }
+        }
+      },
       "FinanceYearVm": {
         "type": "object",
         "additionalProperties": false,
@@ -2289,6 +2378,10 @@
           "mainAccountId": {
             "type": "string",
             "format": "guid"
+          },
+          "mainAccountIdByCustomer": {
+            "type": "integer",
+            "format": "int32"
           },
           "mainAccountNameAr": {
             "type": "string",

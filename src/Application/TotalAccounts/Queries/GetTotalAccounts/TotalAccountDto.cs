@@ -13,6 +13,7 @@ namespace Accounting.Application.TotalAccounts.Queries.GetTotalAccounts
         public Guid CustomerId { get; set; }
         public Guid GeneralLeadgerId { get; set; }
         public Guid MainAccountId { get; set; }
+        public int MainAccountIdByCustomer { get; set; }
         public string MainAccountNameAr { get; set; }
         public bool IsClose { get; set; }
         public bool IsActive { get; set; }        

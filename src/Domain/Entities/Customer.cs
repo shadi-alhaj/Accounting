@@ -13,6 +13,7 @@ namespace Accounting.Domain.Entities
             GeneralLedgers = new List<GeneralLedger>();
             MainAccounts = new List<MainAccount>();
             TotalAccounts = new List<TotalAccount>();
+            DetailAccounts = new List<DetailAccount>();
         }
         public Guid Id { get; set; }
         public int CustomerId { get; set; }
@@ -29,10 +30,11 @@ namespace Accounting.Domain.Entities
         public string Email { get; set; }
         public bool IsActive { get; set; }
 
-        public List<FinanceYear> FinanceYears  { get; set; }
-        public List<Bond> Bonds { get; set; }
-        public List<GeneralLedger> GeneralLedgers { get; set; }
-        public List<MainAccount> MainAccounts { get; set; }
-        public List<TotalAccount> TotalAccounts { get; set; }
+        public IList<FinanceYear> FinanceYears  { get; set; }
+        public IList<Bond> Bonds { get; set; }
+        public IList<GeneralLedger> GeneralLedgers { get; set; }
+        public IList<MainAccount> MainAccounts { get; set; }
+        public IList<TotalAccount> TotalAccounts { get; set; }
+        public IList<DetailAccount> DetailAccounts { get; set; }
     }
 }

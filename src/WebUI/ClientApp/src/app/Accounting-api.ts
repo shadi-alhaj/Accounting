@@ -566,6 +566,76 @@ export class CustomersClient implements ICustomersClient {
     }
 }
 
+export interface IDetailAccountsClient {
+    detailAccounts(customerId: string | undefined): Observable<DetailAccountVm>;
+}
+
+@Injectable({
+    providedIn: 'root'
+})
+export class DetailAccountsClient implements IDetailAccountsClient {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    detailAccounts(customerId: string | undefined): Observable<DetailAccountVm> {
+        let url_ = this.baseUrl + "/api/DetailAccounts/customerId?";
+        if (customerId === null)
+            throw new Error("The parameter 'customerId' cannot be null.");
+        else if (customerId !== undefined)
+            url_ += "customerId=" + encodeURIComponent("" + customerId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDetailAccounts(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDetailAccounts(<any>response_);
+                } catch (e) {
+                    return <Observable<DetailAccountVm>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<DetailAccountVm>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDetailAccounts(response: HttpResponseBase): Observable<DetailAccountVm> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = DetailAccountVm.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<DetailAccountVm>(<any>null);
+    }
+}
+
 export interface IFinanceYearsClient {
     financeYears(): Observable<FinanceYearVm>;
     createFinanceYear(command: CreateFinanceYearCommand): Observable<string>;
@@ -2947,6 +3017,122 @@ export interface IUpdateCustomerCommand {
     email?: string | undefined;
 }
 
+export class DetailAccountVm implements IDetailAccountVm {
+    lists?: DetailAccountDto[] | undefined;
+
+    constructor(data?: IDetailAccountVm) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (Array.isArray(data["lists"])) {
+                this.lists = [] as any;
+                for (let item of data["lists"])
+                    this.lists!.push(DetailAccountDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): DetailAccountVm {
+        data = typeof data === 'object' ? data : {};
+        let result = new DetailAccountVm();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.lists)) {
+            data["lists"] = [];
+            for (let item of this.lists)
+                data["lists"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IDetailAccountVm {
+    lists?: DetailAccountDto[] | undefined;
+}
+
+export class DetailAccountDto implements IDetailAccountDto {
+    id?: string;
+    detailAccountIdByCustomer?: number;
+    detailAccountNameAr?: string | undefined;
+    detailAccountNameEn?: string | undefined;
+    totalAccountNameAr?: string | undefined;
+    customerId?: string;
+    generalLeadgerId?: string;
+    mainAccountId?: string;
+    totalAccountId?: string;
+    isActive?: boolean;
+
+    constructor(data?: IDetailAccountDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.detailAccountIdByCustomer = data["detailAccountIdByCustomer"];
+            this.detailAccountNameAr = data["detailAccountNameAr"];
+            this.detailAccountNameEn = data["detailAccountNameEn"];
+            this.totalAccountNameAr = data["totalAccountNameAr"];
+            this.customerId = data["customerId"];
+            this.generalLeadgerId = data["generalLeadgerId"];
+            this.mainAccountId = data["mainAccountId"];
+            this.totalAccountId = data["totalAccountId"];
+            this.isActive = data["isActive"];
+        }
+    }
+
+    static fromJS(data: any): DetailAccountDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new DetailAccountDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["detailAccountIdByCustomer"] = this.detailAccountIdByCustomer;
+        data["detailAccountNameAr"] = this.detailAccountNameAr;
+        data["detailAccountNameEn"] = this.detailAccountNameEn;
+        data["totalAccountNameAr"] = this.totalAccountNameAr;
+        data["customerId"] = this.customerId;
+        data["generalLeadgerId"] = this.generalLeadgerId;
+        data["mainAccountId"] = this.mainAccountId;
+        data["totalAccountId"] = this.totalAccountId;
+        data["isActive"] = this.isActive;
+        return data; 
+    }
+}
+
+export interface IDetailAccountDto {
+    id?: string;
+    detailAccountIdByCustomer?: number;
+    detailAccountNameAr?: string | undefined;
+    detailAccountNameEn?: string | undefined;
+    totalAccountNameAr?: string | undefined;
+    customerId?: string;
+    generalLeadgerId?: string;
+    mainAccountId?: string;
+    totalAccountId?: string;
+    isActive?: boolean;
+}
+
 export class FinanceYearVm implements IFinanceYearVm {
     lists?: FinanceYearDto[] | undefined;
 
@@ -4082,6 +4268,7 @@ export class TotalAccountDto implements ITotalAccountDto {
     customerId?: string;
     generalLeadgerId?: string;
     mainAccountId?: string;
+    mainAccountIdByCustomer?: number;
     mainAccountNameAr?: string | undefined;
     isClose?: boolean;
     isActive?: boolean;
@@ -4104,6 +4291,7 @@ export class TotalAccountDto implements ITotalAccountDto {
             this.customerId = data["customerId"];
             this.generalLeadgerId = data["generalLeadgerId"];
             this.mainAccountId = data["mainAccountId"];
+            this.mainAccountIdByCustomer = data["mainAccountIdByCustomer"];
             this.mainAccountNameAr = data["mainAccountNameAr"];
             this.isClose = data["isClose"];
             this.isActive = data["isActive"];
@@ -4126,6 +4314,7 @@ export class TotalAccountDto implements ITotalAccountDto {
         data["customerId"] = this.customerId;
         data["generalLeadgerId"] = this.generalLeadgerId;
         data["mainAccountId"] = this.mainAccountId;
+        data["mainAccountIdByCustomer"] = this.mainAccountIdByCustomer;
         data["mainAccountNameAr"] = this.mainAccountNameAr;
         data["isClose"] = this.isClose;
         data["isActive"] = this.isActive;
@@ -4141,6 +4330,7 @@ export interface ITotalAccountDto {
     customerId?: string;
     generalLeadgerId?: string;
     mainAccountId?: string;
+    mainAccountIdByCustomer?: number;
     mainAccountNameAr?: string | undefined;
     isClose?: boolean;
     isActive?: boolean;

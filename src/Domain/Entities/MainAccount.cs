@@ -10,6 +10,7 @@ namespace Accounting.Domain.Entities
         public MainAccount()
         {
             TotalAccounts = new List<TotalAccount>();
+            DetailAccounts = new List<DetailAccount>();
         }
         public Guid Id { get; set; }       
         public int MainAccountIdByCustomer { get; set; }
@@ -21,6 +22,7 @@ namespace Accounting.Domain.Entities
         public Customer Customer { get; set; }
         public GeneralLedger GeneralLedger { get; set; }
 
-        public List<TotalAccount> TotalAccounts { get; set; }
+        public IList<TotalAccount> TotalAccounts { get; set; }
+        public IList<DetailAccount> DetailAccounts { get; set; }
     }
 }

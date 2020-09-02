@@ -8,6 +8,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {MatTabsModule} from '@angular/material/tabs';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import {MatTabsModule} from '@angular/material/tabs';
     MatToolbarModule,
     MatIconModule,
     FontAwesomeModule,
-    MatTabsModule
+    MatTabsModule,
+    MatCheckboxModule
   ],
   exports:[
     MatTableModule,
@@ -31,7 +33,8 @@ import {MatTabsModule} from '@angular/material/tabs';
     MatToolbarModule,
     MatIconModule,
     FontAwesomeModule,
-    MatTabsModule
+    MatTabsModule,
+    MatCheckboxModule
   ]
 })
 export class MaterialModule { }

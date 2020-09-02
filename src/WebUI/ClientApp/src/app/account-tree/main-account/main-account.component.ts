@@ -60,14 +60,12 @@ export class MainAccountComponent implements OnInit {
   }
   onCreate(){
     this.accountTreeSvc.selectedMainAccount = null;
-    this.accountTreeSvc.intializeMainAccountForm();    
+    this.accountTreeSvc.initalizeMainAccountForm();    
     this.openMainAccountDetail();
   }
 
-  onEdit(mainAccount){
-    console.log(mainAccount);
-    
-    this.accountTreeSvc.intializeMainAccountForm();
+  onEdit(mainAccount){    
+    this.accountTreeSvc.initalizeMainAccountForm();
     this.accountTreeSvc.selectedMainAccount = mainAccount.id;
     this.accountTreeSvc.mainAccountForm.patchValue(mainAccount);
     this.openMainAccountDetail();
@@ -82,7 +80,7 @@ export class MainAccountComponent implements OnInit {
         if(result){
           this.mainAccountsClient.deleteMainAccount(id).subscribe(
             res => {
-              this.snackBar.open('Record has been deleted successfully!', 'Delete', {
+              this.snackBar.open('Record has been deleted successfully!', 'Delete Main Account', {
                 duration: 2000,
                 verticalPosition: 'top',
                 horizontalPosition: 'center'

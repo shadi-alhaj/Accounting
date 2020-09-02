@@ -18,6 +18,7 @@ namespace Accounting.Application.Common.Interfaces
         DbSet<GeneralLedger> GeneralLedgers { get; set; }
         DbSet<MainAccount> MainAccounts { get; set; }
         DbSet<TotalAccount> TotalAccounts { get; set; }
+        DbSet<DetailAccount> DetailAccounts { get; set; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
