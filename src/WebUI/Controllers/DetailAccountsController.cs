@@ -1,4 +1,7 @@
-﻿using Accounting.Application.DetailAccounts.Queries.GetDetailAccounts;
+﻿using Accounting.Application.DetailAccounts.Commands.CreateCommand;
+using Accounting.Application.DetailAccounts.Commands.DeleteCommand;
+using Accounting.Application.DetailAccounts.Commands.UpdateCommand;
+using Accounting.Application.DetailAccounts.Queries.GetDetailAccounts;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -14,6 +17,40 @@ namespace Accounting.WebUI.Controllers
         {
             var result = await Mediator.Send(new GetDetailAccountsQuery { CustomerId = customerId });
             return result;
+        }
+
+
+        [HttpGet("{customerId}/{id}")]
+        public async Task<ActionResult<int>> MaxDetailAccountIdByCustomer(Guid customerId, int id)
+        {
+            var result = await Mediator.Send(new GetMaxDetailAccountIdByCustomerIdAndTotalIdQuery { CustomerId = customerId, TotalAccountIdByCustomer = id });
+            return result;
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<Guid>> CreateDetailAccount(CreateDetailAccountCommand command)
+        {
+            var result = await Mediator.Send(command);
+            return result;
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult> UpdateDetailAccount(Guid id, UpdateDetailAccountCommand command)
+        {
+            if (id != command.Id)
+            {
+                return BadRequest();
+            }
+            await Mediator.Send(command);
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteDetailAccount(Guid id)
+        {
+            await Mediator.Send(new DeleteDetailAccountCommand { Id = id });
+            return NoContent();
+
         }
     }
 }

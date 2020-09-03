@@ -20,6 +20,13 @@ namespace Accounting.WebUI.Controllers
             return result;
         }
 
+        [HttpGet]
+        public async Task<ActionResult<TotalAccountDto>> TotalAccount(int mainAccountIdByCustomer, Guid customerId)
+        {
+            var result = await Mediator.Send(new GetTotalAccountByTotalAccountIdByCustomerAndCustomerIdQuery { TotalAccountIdByCustomer = mainAccountIdByCustomer, CustomerId = customerId });
+            return result;
+        }
+
         [HttpGet("{customerId}/{id}")]
         public async Task<ActionResult<int>> MaxTotalAccountIdByCustomer(Guid customerId, int id)
         {

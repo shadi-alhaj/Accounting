@@ -568,6 +568,10 @@ export class CustomersClient implements ICustomersClient {
 
 export interface IDetailAccountsClient {
     detailAccounts(customerId: string | undefined): Observable<DetailAccountVm>;
+    maxDetailAccountIdByCustomer(customerId: string, id: number): Observable<number>;
+    createDetailAccount(command: CreateDetailAccountCommand): Observable<string>;
+    updateDetailAccount(id: string, command: UpdateDetailAccountCommand): Observable<FileResponse>;
+    deleteDetailAccount(id: string): Observable<FileResponse>;
 }
 
 @Injectable({
@@ -633,6 +637,214 @@ export class DetailAccountsClient implements IDetailAccountsClient {
             }));
         }
         return _observableOf<DetailAccountVm>(<any>null);
+    }
+
+    maxDetailAccountIdByCustomer(customerId: string, id: number): Observable<number> {
+        let url_ = this.baseUrl + "/api/DetailAccounts/{customerId}/{id}";
+        if (customerId === undefined || customerId === null)
+            throw new Error("The parameter 'customerId' must be defined.");
+        url_ = url_.replace("{customerId}", encodeURIComponent("" + customerId)); 
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processMaxDetailAccountIdByCustomer(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processMaxDetailAccountIdByCustomer(<any>response_);
+                } catch (e) {
+                    return <Observable<number>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<number>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processMaxDetailAccountIdByCustomer(response: HttpResponseBase): Observable<number> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<number>(<any>null);
+    }
+
+    createDetailAccount(command: CreateDetailAccountCommand): Observable<string> {
+        let url_ = this.baseUrl + "/api/DetailAccounts";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(command);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateDetailAccount(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateDetailAccount(<any>response_);
+                } catch (e) {
+                    return <Observable<string>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<string>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateDetailAccount(response: HttpResponseBase): Observable<string> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<string>(<any>null);
+    }
+
+    updateDetailAccount(id: string, command: UpdateDetailAccountCommand): Observable<FileResponse> {
+        let url_ = this.baseUrl + "/api/DetailAccounts/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(command);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/octet-stream"
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdateDetailAccount(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdateDetailAccount(<any>response_);
+                } catch (e) {
+                    return <Observable<FileResponse>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<FileResponse>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdateDetailAccount(response: HttpResponseBase): Observable<FileResponse> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200 || status === 206) {
+            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
+            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+            return _observableOf({ fileName: fileName, data: <any>responseBlob, status: status, headers: _headers });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<FileResponse>(<any>null);
+    }
+
+    deleteDetailAccount(id: string): Observable<FileResponse> {
+        let url_ = this.baseUrl + "/api/DetailAccounts/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/octet-stream"
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDeleteDetailAccount(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDeleteDetailAccount(<any>response_);
+                } catch (e) {
+                    return <Observable<FileResponse>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<FileResponse>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDeleteDetailAccount(response: HttpResponseBase): Observable<FileResponse> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200 || status === 206) {
+            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
+            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+            return _observableOf({ fileName: fileName, data: <any>responseBlob, status: status, headers: _headers });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<FileResponse>(<any>null);
     }
 }
 
@@ -2088,8 +2300,9 @@ export class TodoListsClient implements ITodoListsClient {
 
 export interface ITotalAccountsClient {
     totalAccounts(customerId: string): Observable<TotalAccountVm>;
-    maxTotalAccountIdByCustomer(customerId: string, id: number): Observable<number>;
+    totalAccount(mainAccountIdByCustomer: number | undefined, customerId: string | undefined): Observable<TotalAccountDto>;
     createTotalAccount(command: CreateTotalAccountCommand): Observable<string>;
+    maxTotalAccountIdByCustomer(customerId: string, id: number): Observable<number>;
     updateTotalAccount(id: string, command: UpdateTotalAccountCommand): Observable<FileResponse>;
     deleteTotalAccount(id: string): Observable<FileResponse>;
 }
@@ -2158,14 +2371,16 @@ export class TotalAccountsClient implements ITotalAccountsClient {
         return _observableOf<TotalAccountVm>(<any>null);
     }
 
-    maxTotalAccountIdByCustomer(customerId: string, id: number): Observable<number> {
-        let url_ = this.baseUrl + "/api/TotalAccounts/{customerId}/{id}";
-        if (customerId === undefined || customerId === null)
-            throw new Error("The parameter 'customerId' must be defined.");
-        url_ = url_.replace("{customerId}", encodeURIComponent("" + customerId)); 
-        if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
+    totalAccount(mainAccountIdByCustomer: number | undefined, customerId: string | undefined): Observable<TotalAccountDto> {
+        let url_ = this.baseUrl + "/api/TotalAccounts?";
+        if (mainAccountIdByCustomer === null)
+            throw new Error("The parameter 'mainAccountIdByCustomer' cannot be null.");
+        else if (mainAccountIdByCustomer !== undefined)
+            url_ += "mainAccountIdByCustomer=" + encodeURIComponent("" + mainAccountIdByCustomer) + "&"; 
+        if (customerId === null)
+            throw new Error("The parameter 'customerId' cannot be null.");
+        else if (customerId !== undefined)
+            url_ += "customerId=" + encodeURIComponent("" + customerId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -2177,20 +2392,20 @@ export class TotalAccountsClient implements ITotalAccountsClient {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processMaxTotalAccountIdByCustomer(response_);
+            return this.processTotalAccount(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processMaxTotalAccountIdByCustomer(<any>response_);
+                    return this.processTotalAccount(<any>response_);
                 } catch (e) {
-                    return <Observable<number>><any>_observableThrow(e);
+                    return <Observable<TotalAccountDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<number>><any>_observableThrow(response_);
+                return <Observable<TotalAccountDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processMaxTotalAccountIdByCustomer(response: HttpResponseBase): Observable<number> {
+    protected processTotalAccount(response: HttpResponseBase): Observable<TotalAccountDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -2201,7 +2416,7 @@ export class TotalAccountsClient implements ITotalAccountsClient {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            result200 = TotalAccountDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -2209,7 +2424,7 @@ export class TotalAccountsClient implements ITotalAccountsClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<number>(<any>null);
+        return _observableOf<TotalAccountDto>(<any>null);
     }
 
     createTotalAccount(command: CreateTotalAccountCommand): Observable<string> {
@@ -2262,6 +2477,60 @@ export class TotalAccountsClient implements ITotalAccountsClient {
             }));
         }
         return _observableOf<string>(<any>null);
+    }
+
+    maxTotalAccountIdByCustomer(customerId: string, id: number): Observable<number> {
+        let url_ = this.baseUrl + "/api/TotalAccounts/{customerId}/{id}";
+        if (customerId === undefined || customerId === null)
+            throw new Error("The parameter 'customerId' must be defined.");
+        url_ = url_.replace("{customerId}", encodeURIComponent("" + customerId)); 
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processMaxTotalAccountIdByCustomer(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processMaxTotalAccountIdByCustomer(<any>response_);
+                } catch (e) {
+                    return <Observable<number>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<number>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processMaxTotalAccountIdByCustomer(response: HttpResponseBase): Observable<number> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<number>(<any>null);
     }
 
     updateTotalAccount(id: string, command: UpdateTotalAccountCommand): Observable<FileResponse> {
@@ -3071,6 +3340,7 @@ export class DetailAccountDto implements IDetailAccountDto {
     generalLeadgerId?: string;
     mainAccountId?: string;
     totalAccountId?: string;
+    totalAccountIdByCustomer?: number;
     isActive?: boolean;
 
     constructor(data?: IDetailAccountDto) {
@@ -3093,6 +3363,7 @@ export class DetailAccountDto implements IDetailAccountDto {
             this.generalLeadgerId = data["generalLeadgerId"];
             this.mainAccountId = data["mainAccountId"];
             this.totalAccountId = data["totalAccountId"];
+            this.totalAccountIdByCustomer = data["totalAccountIdByCustomer"];
             this.isActive = data["isActive"];
         }
     }
@@ -3115,6 +3386,7 @@ export class DetailAccountDto implements IDetailAccountDto {
         data["generalLeadgerId"] = this.generalLeadgerId;
         data["mainAccountId"] = this.mainAccountId;
         data["totalAccountId"] = this.totalAccountId;
+        data["totalAccountIdByCustomer"] = this.totalAccountIdByCustomer;
         data["isActive"] = this.isActive;
         return data; 
     }
@@ -3130,7 +3402,112 @@ export interface IDetailAccountDto {
     generalLeadgerId?: string;
     mainAccountId?: string;
     totalAccountId?: string;
+    totalAccountIdByCustomer?: number;
     isActive?: boolean;
+}
+
+export class CreateDetailAccountCommand implements ICreateDetailAccountCommand {
+    detailAccountIdByCustomer?: number;
+    detailAccountNameAr?: string | undefined;
+    detailAccountNameEn?: string | undefined;
+    customerId?: string;
+    generalLeadgerId?: string;
+    mainAccountId?: string;
+    totalAccountId?: string;
+
+    constructor(data?: ICreateDetailAccountCommand) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.detailAccountIdByCustomer = data["detailAccountIdByCustomer"];
+            this.detailAccountNameAr = data["detailAccountNameAr"];
+            this.detailAccountNameEn = data["detailAccountNameEn"];
+            this.customerId = data["customerId"];
+            this.generalLeadgerId = data["generalLeadgerId"];
+            this.mainAccountId = data["mainAccountId"];
+            this.totalAccountId = data["totalAccountId"];
+        }
+    }
+
+    static fromJS(data: any): CreateDetailAccountCommand {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateDetailAccountCommand();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["detailAccountIdByCustomer"] = this.detailAccountIdByCustomer;
+        data["detailAccountNameAr"] = this.detailAccountNameAr;
+        data["detailAccountNameEn"] = this.detailAccountNameEn;
+        data["customerId"] = this.customerId;
+        data["generalLeadgerId"] = this.generalLeadgerId;
+        data["mainAccountId"] = this.mainAccountId;
+        data["totalAccountId"] = this.totalAccountId;
+        return data; 
+    }
+}
+
+export interface ICreateDetailAccountCommand {
+    detailAccountIdByCustomer?: number;
+    detailAccountNameAr?: string | undefined;
+    detailAccountNameEn?: string | undefined;
+    customerId?: string;
+    generalLeadgerId?: string;
+    mainAccountId?: string;
+    totalAccountId?: string;
+}
+
+export class UpdateDetailAccountCommand implements IUpdateDetailAccountCommand {
+    id?: string;
+    detailAccountNameAr?: string | undefined;
+    detailAccountNameEn?: string | undefined;
+
+    constructor(data?: IUpdateDetailAccountCommand) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.detailAccountNameAr = data["detailAccountNameAr"];
+            this.detailAccountNameEn = data["detailAccountNameEn"];
+        }
+    }
+
+    static fromJS(data: any): UpdateDetailAccountCommand {
+        data = typeof data === 'object' ? data : {};
+        let result = new UpdateDetailAccountCommand();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["detailAccountNameAr"] = this.detailAccountNameAr;
+        data["detailAccountNameEn"] = this.detailAccountNameEn;
+        return data; 
+    }
+}
+
+export interface IUpdateDetailAccountCommand {
+    id?: string;
+    detailAccountNameAr?: string | undefined;
+    detailAccountNameEn?: string | undefined;
 }
 
 export class FinanceYearVm implements IFinanceYearVm {

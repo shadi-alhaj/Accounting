@@ -15,6 +15,7 @@ namespace Accounting.Application.DetailAccounts.Queries.GetDetailAccounts
         public Guid GeneralLeadgerId { get; set; }
         public Guid MainAccountId { get; set; }
         public Guid TotalAccountId { get; set; }
+        public int TotalAccountIdByCustomer { get; set; }
         public bool IsActive { get; set; }
 
     }

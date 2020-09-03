@@ -73,6 +73,7 @@ export class AccountTreeService {
       generalLeadgerId: ['', [Validators.required]],
       mainAccountId: [''],
       totalAccountId:[null, [Validators.required]],
+      totalAccountIdByCustomer: [null, [Validators.required]],
       totalAccountNameAr:['', [Validators.required]]
     });
   }

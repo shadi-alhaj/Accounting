@@ -18,19 +18,19 @@ export class DetailAccountComponent implements OnInit {
   faPlus = faPlus;
   faEdit = faEdit;
   faDelete = faTrash;
-  
+
   displayedColumns = ['detailAccountIdByCustomer', 'detailAccountNameAr', 'detailAccountNameEn', 'totalAccountNameAr', 'actions'];
   dataSource: MatTableDataSource<DetailAccountVm>;
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
-  
+
   constructor(private detailAccountsClient: DetailAccountsClient,
-              private accountTreeSvc: AccountTreeService,
-              private dialog: MatDialog) { }
+    private accountTreeSvc: AccountTreeService,
+    private dialog: MatDialog) { }
 
   ngOnInit() {
   }
 
-  getDetailAccountList(){
+  getDetailAccountList() {
     this.detailAccountsClient.detailAccounts(this.accountTreeSvc.customerId).subscribe(
       result => {
         this.dataSource = new MatTableDataSource(result.lists);
@@ -40,22 +40,30 @@ export class DetailAccountComponent implements OnInit {
       });
   }
 
-  openDetailAccountDetail(){
+  openDetailAccountDetail() {
+    this.accountTreeSvc.detailAccountForm.patchValue({
+      customerId: this.accountTreeSvc.customerId
+    });
+
     this.dialog.open(DetailAccountEditComponent, {
       width: '50%'
-    });
+    }).afterClosed()
+      .subscribe(
+        () => {
+          this.getDetailAccountList();
+        });
   }
 
-  onCreate(){
+  onCreate() {
     this.accountTreeSvc.selectedDetailAccount = null;
     this.accountTreeSvc.initalizeDetailAccountForm();
     this.openDetailAccountDetail();
   }
 
-  onEdit(detailAccount){
+  onEdit(detailAccount) {
 
   }
 
-  onDelete(id){}
+  onDelete(id) { }
 
 }

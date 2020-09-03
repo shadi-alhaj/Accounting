@@ -9,16 +9,16 @@
         <span aria-hidden="true">&times;</span>
     </button>
 </mat-toolbar>
-<form [formGroup]="accountTreeSvc.totalAccountForm">
+<form [formGroup]="accountTreeSvc.detailAccountForm">
     <div class="form-row mt-2">
         <div class="col-md-4">
-            <label for="">Main Account</label>
+            <label for="">Total Account</label>
         </div>
         <div class="col-md-2">
             <input type="number" 
                    class="form-control"
-                   formControlName="detailAccountIdByCustomer"
-                   (keyup.enter)="getMainAndTotalAccount(accountTreeSvc.totalAccountForm.get('detailAccountIdByCustomer').value);"
+                   formControlName="totalAccountIdByCustomer"
+                   (keyup.enter)="getTotalAndDetailAccount(accountTreeSvc.detailAccountForm.get('totalAccountIdByCustomer').value);"
                    [readOnly]="accountTreeSvc.selectedDetailAccount !== null">
         </div>
         <div class="col-md-1">
@@ -28,7 +28,7 @@
         <div class="col-md-4">
             <input type="text" 
                    class="form-control"
-                   formControlName="mainAccountNameAr"                                    
+                   formControlName="totalAccountNameAr"                                    
                    [readOnly]="true">
         </div>
     </div>
@@ -87,7 +87,7 @@
             <div class="float-right">
                 <button class="btn btn-default mr-1" (click)="onClose(); $event.preventDefault()">Cancel</button>
                 <button class="btn btn-primary" 
-                        [disabled]="!accountTreeSvc.totalAccountForm.valid"
+                        [disabled]="!accountTreeSvc.detailAccountForm.valid"
                         (click)="onSubmit()">
                     {{accountTreeSvc.selectedDetailAccount === null?"Create": "Update"}}
                 </button>

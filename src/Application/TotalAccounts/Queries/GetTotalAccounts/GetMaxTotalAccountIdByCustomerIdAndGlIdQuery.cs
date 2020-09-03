@@ -34,7 +34,7 @@ namespace Accounting.Application.TotalAccounts.Queries.GetTotalAccounts
 
                 var maxTotalAccountId = _context.TotalAccounts
                     .Where(t => t.CustomerId == request.CustomerId && t.MainAccountId == mainAccountId && t.IsActive)
-                    .Max(e => (int?)e.TotalAccountIdByCustomer) ?? (request.MainAccountIdByCustomer * 10);
+                    .Max(e => (int?)e.TotalAccountIdByCustomer) ?? (request.MainAccountIdByCustomer * 100);
 
                 return Task.FromResult(maxTotalAccountId + 1);
             }
