@@ -71,7 +71,6 @@ export class TotalAccountComponent implements OnInit {
    }
 
   onEdit(totalAccount) {
-    console.log(totalAccount);
     this.accountTreeSvc.initalizeTotalAccountForm();
     this.accountTreeSvc.selectedTotalAccount = totalAccount.id;
     this.accountTreeSvc.totalAccountForm.patchValue(totalAccount);

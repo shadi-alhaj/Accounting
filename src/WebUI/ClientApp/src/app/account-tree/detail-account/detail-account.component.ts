@@ -1,3 +1,4 @@
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { faPlus, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { MatTableDataSource } from '@angular/material/table';
@@ -6,6 +7,7 @@ import { DetailAccountVm, DetailAccountsClient } from 'src/app/accounting-api';
 import { AccountTreeService } from '../account-tree.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DetailAccountEditComponent } from '../detail-account-edit/detail-account-edit.component';
+import { ConfirmationService } from 'src/app/shared/services/confirmation.service';
 
 @Component({
   selector: 'app-detail-account',
@@ -25,9 +27,12 @@ export class DetailAccountComponent implements OnInit {
 
   constructor(private detailAccountsClient: DetailAccountsClient,
     private accountTreeSvc: AccountTreeService,
-    private dialog: MatDialog) { }
+    private dialog: MatDialog,
+    private confirmationSvc: ConfirmationService,
+    private snackBar: MatSnackBar) { }
 
   ngOnInit() {
+    this.getDetailAccountList();
   }
 
   getDetailAccountList() {
@@ -61,9 +66,33 @@ export class DetailAccountComponent implements OnInit {
   }
 
   onEdit(detailAccount) {
-
+    this.accountTreeSvc.initalizeDetailAccountForm();
+    this.accountTreeSvc.selectedDetailAccount = detailAccount.id;
+    this.accountTreeSvc.detailAccountForm.patchValue(detailAccount);
+    this.openDetailAccountDetail();
   }
 
-  onDelete(id) { }
+  onDelete(id) {
+    this.confirmationSvc
+    .openConfirmationDialog('Are you sure want to delete this record?', 'Delete Details Account')
+    .afterClosed()
+    .subscribe(
+      result => {
+        if(result){
+          this.detailAccountsClient.deleteDetailAccount(id).subscribe(
+            res => {
+              this.snackBar.open('Record has been deleted successfully!', 'Delete Details Account', {
+                duration: 2000,
+                verticalPosition: 'top',
+                horizontalPosition: 'center'
+              });
+              this.getDetailAccountList();
+            },
+            error => {
+              console.log(error);
+            });
+        }
+      });
+   }
 
 }

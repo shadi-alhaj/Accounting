@@ -29,7 +29,7 @@ namespace Accounting.Application.DetailAccounts.Queries.GetDetailAccounts
                 var vm = new DetailAccountVm();
 
                 vm.Lists = await _context.DetailAccounts
-                            .Where(d => d.CustomerId == request.CustomerId)
+                            .Where(d => d.CustomerId == request.CustomerId && d.IsActive)
                             .Include(d => d.TotalAccount)
                             .Select(d => new DetailAccountDto
                             {
