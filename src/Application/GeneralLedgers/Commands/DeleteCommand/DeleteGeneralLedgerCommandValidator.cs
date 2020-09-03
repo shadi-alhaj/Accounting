@@ -22,7 +22,7 @@ namespace Accounting.Application.GeneralLedgers.Commands.DeleteCommand
 
         private async Task<bool> BeLeafAccount(Guid glId, CancellationToken cancellationToken)
         {
-            var result = await _context.MainAccounts.AnyAsync(m => m.GeneralLeadgerId != glId);
+            var result = await _context.MainAccounts.AnyAsync(m => m.GeneralLeadgerId != glId && m.IsActive);
             return result;
         }
     }
