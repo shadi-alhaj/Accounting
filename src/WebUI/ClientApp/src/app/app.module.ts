@@ -20,6 +20,7 @@ import { SelectedDashboardModule } from './selected-dashboard/selected-dashboard
 import { AppRoutingModule } from './app-routing.module';
 import { BondModule } from './bond/bond.module';
 import { AccountTreeModule } from './account-tree/account-tree.module';
+import { DailyTransactionModule } from './daily-transaction/daily-transaction.module';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { AccountTreeModule } from './account-tree/account-tree.module';
     SelectedDashboardModule,
     AppRoutingModule,
     BondModule,
-    AccountTreeModule
+    AccountTreeModule,
+    DailyTransactionModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },

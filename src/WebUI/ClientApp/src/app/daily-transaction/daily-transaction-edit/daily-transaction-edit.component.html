@@ -1,0 +1,115 @@
+<div class="card mat-elevation-z8 p-2">
+    <div class="card-header">
+        <h1>{{pageTitle}}</h1>
+    </div>
+    <div class="card-bdoy">
+        <form [formGroup]="dailyTransactionSvc.dailyTransactionForm" autocomplete="off" (submit)="onSubmit()">
+            <fieldset class="p-3" style="border: 1px red solid;">
+                <legend style="width: auto;">Bond Data</legend>
+                <div class="row mt-2">
+                    <div class="col-md-1">
+                        <label for="">
+                            Bond Type
+                        </label>
+                    </div>
+                    <div class="col-md-5 d-flex justify-content-between p-0">
+                        <input type="number" class="form-control col-md-4" formControlName="bondUserId">
+                        <button class="btn btn-primary col-md-1">
+                            ...
+                        </button>
+                        <input type="text" class="form-control col-md-6" formControlName="bondName" readonly>
+                    </div>
+
+                    <div class="col-md-1 ml-5">
+                        <label for="">
+                            Bond SNo
+                        </label>
+                    </div>
+                    <div class="col-md-1">
+                        <input type="text" class="form-control" formControlName="bondSno">
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-md-1">
+                        <label for="">
+                            Bond Date
+                        </label>
+                    </div>
+                    <div class="col-md-5 row m-0 p-0">
+                        <input class="form-control  col-md-4" matInput [matDatepicker]="picker"
+                            placeholder="Choose a date">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </div>
+                    <div class="col-md-1 ml-5">
+                        <label>
+                            Month
+                        </label>
+                    </div>
+                    <div class="col-md-1">
+                        <input type="text" class="form-control" formControlName="bondMonth">
+                    </div>
+                </div>
+            </fieldset>
+
+
+            <fieldset class="p-3" style="border: 1px red solid;">
+                <legend style="width: auto;">Bond Details</legend>
+                <div class="row mb-1 text-center" >
+                    <div class="col-md-2">Account No.</div>
+                    <div class="col-md-1" style=" padding: 0; display: flex;
+                    margin: 0;
+                    justify-content: center;
+                    max-width: 1%;"></div>
+                    <div class="col-md-2">Account Name</div>
+                    <div class="col-md-2">Debit</div>
+                    <div class="col-md-2">Credit</div>
+                    <div class="col-md-2">Description</div>
+                    <div class="col-md-1">
+                        <button class="btn btn-success" (click)="dailyTransactionSvc.addBondDetails()">+</button>
+                    </div>
+                </div>
+                <div formArrayName="bondDetails"
+                    *ngFor="let item of dailyTransactionSvc.bondDetails.controls; let i=index; let first=first">
+                    <div [formGroupName]="i">
+                        <div>
+                            <div class="row mb-2">
+                                <div class="col-md-2 d-flex align-items-center">
+                                    <input type="text" class="form-control" formControlName="detailAccountIdByCustomer">
+                                </div>
+                                <div class="col-md-1 d-flex align-items-center p-0 m-0 " style=" justify-content: center; 
+                                max-width: 1%;
+                               ">
+                                    <button class="btn btn-primary">
+                                        ...
+                                    </button>
+                                </div>
+                                <div class="col-md-2 d-flex align-items-center">
+                                    <input type="text" class="form-control" formControlName="detailAccountNameAr"
+                                        readonly>
+                                </div>
+                                <div class="col-md-2 d-flex align-items-center">
+                                    <input type="text" class="form-control" formControlName="debitAmount">
+                                </div>
+                                <div class="col-md-2 d-flex align-items-center">
+                                    <input type="text" class="form-control" formControlName="creditAmount">
+                                </div>
+                                <div class="col-md-2 d-flex align-items-center">
+                                    <textarea class="form-control" formControlName="description">
+                                        </textarea>
+                                </div>
+                                <div class="col-md-1 d-flex align-items-center">
+                                    <button class="btn btn-danger"
+                                        (click)="dailyTransactionSvc.removeBondDetails(i)">-</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>

@@ -33,6 +33,10 @@ namespace Accounting.Application.GeneralLedgers.Queries.GetGeneralLedgers
                     .OrderBy(g => g.GlIdByCustomer)
                     .ToListAsync(cancellationToken);
 
+                var result = await _context.Customers.Where(c => c.Id == request.CustomerId)
+                      .Include(c => c.GeneralLedgers).ThenInclude(c => c.MainAccounts).ThenInclude(c => c.TotalAccounts).ThenInclude(c => c.DetailAccounts)
+                      .ToListAsync(cancellationToken);
+
                 return vm;
             }
         }

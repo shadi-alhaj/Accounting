@@ -1,15 +1,16 @@
-<div class="card mat-elevation-z8 mt-2">
+<div class="card mat-elevation-z8 mt-2 ">
     <div class="card-header">
         <h3>{{pageTitle}}</h3>
     </div>
     <div class="card-bdoy">
-    <div>
-        <label>Search By: </label>
-        <input matInput (keyup)="applyFilter($event)" #input>
+    <div class="form-group  mt-1  d-flex justify-content-center align-items-center">
+        <label class="col-md-1 m-0 p-0 text-center">Search By: </label>
+        <input type="search" id="search" value="" class="form-control col-md-3" placeholder="Search using Fuzzy searching">
+        <!-- <input matInput (keyup)="applyFilter($event)" #input> -->
     </div>
     <div class="row">
         <div class="col-lg-4 col-lg-offset-4">
-            <input type="search" id="search" value="" class="form-control" placeholder="Search using Fuzzy searching">
+           
         </div>
     </div>
     <div>

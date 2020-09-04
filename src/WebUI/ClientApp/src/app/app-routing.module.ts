@@ -1,3 +1,4 @@
+import { DailyTransactionEditComponent } from './daily-transaction/daily-transaction-edit/daily-transaction-edit.component';
 import { AccountTreeComponent } from './account-tree/account-tree/account-tree.component';
 import { BondListComponent } from './bond/bond-list/bond-list.component';
 import { HomeDashboardComponent } from './selected-dashboard/home-dashboard/home-dashboard.component';
@@ -22,6 +23,7 @@ const routes: Routes = [
     children: [
       {path: 'bond-list', component: BondListComponent, canActivate: [AuthorizeGuard]},
       {path: 'account-tree', component: AccountTreeComponent, canActivate: [AuthorizeGuard]},
+      {path: 'daily-transaction', component: DailyTransactionEditComponent, canActivate: [AuthorizeGuard]},
     ]
   }];
 

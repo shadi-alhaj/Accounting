@@ -9,6 +9,10 @@ import {MatIconModule} from '@angular/material/icon';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatNativeDateModule} from '@angular/material';
+import {MatInputModule} from '@angular/material/input';
+
 
 
 @NgModule({
@@ -23,7 +27,10 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     MatIconModule,
     FontAwesomeModule,
     MatTabsModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatInputModule
   ],
   exports:[
     MatTableModule,
@@ -34,7 +41,10 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     MatIconModule,
     FontAwesomeModule,
     MatTabsModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatInputModule
   ]
 })
 export class MaterialModule { }
