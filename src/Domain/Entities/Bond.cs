@@ -5,8 +5,13 @@ using System.Text;
 
 namespace Accounting.Domain.Entities
 {
-    public class Bond: AuditableEntity
+    public class Bond : AuditableEntity
     {
+        public Bond()
+        {
+            DailyTransactions = new List<DailyTransaction>();
+
+        }
         public Guid Id { get; set; }
         public int BondUserId { get; set; }
         public int IntialSNo { get; set; }
@@ -16,5 +21,6 @@ namespace Accounting.Domain.Entities
 
         public Guid CustomerId { get; set; }
         public Customer Customer { get; set; }
+        public IList<DailyTransaction> DailyTransactions { get; set; }
     }
 }

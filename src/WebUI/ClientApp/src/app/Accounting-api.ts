@@ -17,7 +17,8 @@ export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 export interface IBondsClient {
     bonds(customerId: string | undefined): Observable<BondVm>;
     createBond(command: CreateBondCommand): Observable<string>;
-    getBondMaxIdByCustomerId(customerId: string | undefined): Observable<number>;
+    bondMaxIdByCustomerId(customerId: string | undefined): Observable<number>;
+    bondByCustomerIdAndBondCustomerIdQuery(customerId: string, bondUserId: number, finYear: number): Observable<BondDailyTransactionDto>;
     updateBond(id: string, command: UpdateBondCommand): Observable<FileResponse>;
     deleteBond(id: string): Observable<FileResponse>;
 }
@@ -139,8 +140,8 @@ export class BondsClient implements IBondsClient {
         return _observableOf<string>(<any>null);
     }
 
-    getBondMaxIdByCustomerId(customerId: string | undefined): Observable<number> {
-        let url_ = this.baseUrl + "/api/Bonds/GetBondMaxIdByCustomerId?";
+    bondMaxIdByCustomerId(customerId: string | undefined): Observable<number> {
+        let url_ = this.baseUrl + "/api/Bonds/BondMaxIdByCustomerId?";
         if (customerId === null)
             throw new Error("The parameter 'customerId' cannot be null.");
         else if (customerId !== undefined)
@@ -156,11 +157,11 @@ export class BondsClient implements IBondsClient {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetBondMaxIdByCustomerId(response_);
+            return this.processBondMaxIdByCustomerId(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetBondMaxIdByCustomerId(<any>response_);
+                    return this.processBondMaxIdByCustomerId(<any>response_);
                 } catch (e) {
                     return <Observable<number>><any>_observableThrow(e);
                 }
@@ -169,7 +170,7 @@ export class BondsClient implements IBondsClient {
         }));
     }
 
-    protected processGetBondMaxIdByCustomerId(response: HttpResponseBase): Observable<number> {
+    protected processBondMaxIdByCustomerId(response: HttpResponseBase): Observable<number> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -189,6 +190,63 @@ export class BondsClient implements IBondsClient {
             }));
         }
         return _observableOf<number>(<any>null);
+    }
+
+    bondByCustomerIdAndBondCustomerIdQuery(customerId: string, bondUserId: number, finYear: number): Observable<BondDailyTransactionDto> {
+        let url_ = this.baseUrl + "/api/Bonds/BondByCustomerIdAndBondCustomerIdQuery/{customerId}/{bondUserId}/{finYear}";
+        if (customerId === undefined || customerId === null)
+            throw new Error("The parameter 'customerId' must be defined.");
+        url_ = url_.replace("{customerId}", encodeURIComponent("" + customerId)); 
+        if (bondUserId === undefined || bondUserId === null)
+            throw new Error("The parameter 'bondUserId' must be defined.");
+        url_ = url_.replace("{bondUserId}", encodeURIComponent("" + bondUserId)); 
+        if (finYear === undefined || finYear === null)
+            throw new Error("The parameter 'finYear' must be defined.");
+        url_ = url_.replace("{finYear}", encodeURIComponent("" + finYear)); 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processBondByCustomerIdAndBondCustomerIdQuery(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processBondByCustomerIdAndBondCustomerIdQuery(<any>response_);
+                } catch (e) {
+                    return <Observable<BondDailyTransactionDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<BondDailyTransactionDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processBondByCustomerIdAndBondCustomerIdQuery(response: HttpResponseBase): Observable<BondDailyTransactionDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = BondDailyTransactionDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<BondDailyTransactionDto>(<any>null);
     }
 
     updateBond(id: string, command: UpdateBondCommand): Observable<FileResponse> {
@@ -569,6 +627,7 @@ export class CustomersClient implements ICustomersClient {
 export interface IDetailAccountsClient {
     detailAccounts(customerId: string | undefined): Observable<DetailAccountVm>;
     maxDetailAccountIdByCustomer(customerId: string, id: number): Observable<number>;
+    detailAccount(customerId: string | undefined, detailAccountIdByCustomer: number | undefined): Observable<DetailAccountDetailsVm>;
     createDetailAccount(command: CreateDetailAccountCommand): Observable<string>;
     updateDetailAccount(id: string, command: UpdateDetailAccountCommand): Observable<FileResponse>;
     deleteDetailAccount(id: string): Observable<FileResponse>;
@@ -691,6 +750,62 @@ export class DetailAccountsClient implements IDetailAccountsClient {
             }));
         }
         return _observableOf<number>(<any>null);
+    }
+
+    detailAccount(customerId: string | undefined, detailAccountIdByCustomer: number | undefined): Observable<DetailAccountDetailsVm> {
+        let url_ = this.baseUrl + "/api/DetailAccounts?";
+        if (customerId === null)
+            throw new Error("The parameter 'customerId' cannot be null.");
+        else if (customerId !== undefined)
+            url_ += "customerId=" + encodeURIComponent("" + customerId) + "&"; 
+        if (detailAccountIdByCustomer === null)
+            throw new Error("The parameter 'detailAccountIdByCustomer' cannot be null.");
+        else if (detailAccountIdByCustomer !== undefined)
+            url_ += "detailAccountIdByCustomer=" + encodeURIComponent("" + detailAccountIdByCustomer) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDetailAccount(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDetailAccount(<any>response_);
+                } catch (e) {
+                    return <Observable<DetailAccountDetailsVm>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<DetailAccountDetailsVm>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDetailAccount(response: HttpResponseBase): Observable<DetailAccountDetailsVm> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = DetailAccountDetailsVm.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<DetailAccountDetailsVm>(<any>null);
     }
 
     createDetailAccount(command: CreateDetailAccountCommand): Observable<string> {
@@ -2810,6 +2925,54 @@ export interface IBondDto {
     cusId?: string;
 }
 
+export class BondDailyTransactionDto implements IBondDailyTransactionDto {
+    bondId?: string;
+    bondNameAr?: string | undefined;
+    bondNameEn?: string | undefined;
+    bondMaxSNo?: number;
+
+    constructor(data?: IBondDailyTransactionDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.bondId = data["bondId"];
+            this.bondNameAr = data["bondNameAr"];
+            this.bondNameEn = data["bondNameEn"];
+            this.bondMaxSNo = data["bondMaxSNo"];
+        }
+    }
+
+    static fromJS(data: any): BondDailyTransactionDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new BondDailyTransactionDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["bondId"] = this.bondId;
+        data["bondNameAr"] = this.bondNameAr;
+        data["bondNameEn"] = this.bondNameEn;
+        data["bondMaxSNo"] = this.bondMaxSNo;
+        return data; 
+    }
+}
+
+export interface IBondDailyTransactionDto {
+    bondId?: string;
+    bondNameAr?: string | undefined;
+    bondNameEn?: string | undefined;
+    bondMaxSNo?: number;
+}
+
 export class CreateBondCommand implements ICreateBondCommand {
     bondUserId?: number;
     intialSNo?: number;
@@ -3403,6 +3566,74 @@ export interface IDetailAccountDto {
     mainAccountId?: string;
     totalAccountId?: string;
     totalAccountIdByCustomer?: number;
+    isActive?: boolean;
+}
+
+export class DetailAccountDetailsVm implements IDetailAccountDetailsVm {
+    id?: string;
+    detailAccountIdByCustomer?: number;
+    detailAccountNameAr?: string | undefined;
+    detailAccountNameEn?: string | undefined;
+    customerId?: string;
+    generalLeadgerId?: string;
+    mainAccountId?: string;
+    totalAccountId?: string;
+    isActive?: boolean;
+
+    constructor(data?: IDetailAccountDetailsVm) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.detailAccountIdByCustomer = data["detailAccountIdByCustomer"];
+            this.detailAccountNameAr = data["detailAccountNameAr"];
+            this.detailAccountNameEn = data["detailAccountNameEn"];
+            this.customerId = data["customerId"];
+            this.generalLeadgerId = data["generalLeadgerId"];
+            this.mainAccountId = data["mainAccountId"];
+            this.totalAccountId = data["totalAccountId"];
+            this.isActive = data["isActive"];
+        }
+    }
+
+    static fromJS(data: any): DetailAccountDetailsVm {
+        data = typeof data === 'object' ? data : {};
+        let result = new DetailAccountDetailsVm();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["detailAccountIdByCustomer"] = this.detailAccountIdByCustomer;
+        data["detailAccountNameAr"] = this.detailAccountNameAr;
+        data["detailAccountNameEn"] = this.detailAccountNameEn;
+        data["customerId"] = this.customerId;
+        data["generalLeadgerId"] = this.generalLeadgerId;
+        data["mainAccountId"] = this.mainAccountId;
+        data["totalAccountId"] = this.totalAccountId;
+        data["isActive"] = this.isActive;
+        return data; 
+    }
+}
+
+export interface IDetailAccountDetailsVm {
+    id?: string;
+    detailAccountIdByCustomer?: number;
+    detailAccountNameAr?: string | undefined;
+    detailAccountNameEn?: string | undefined;
+    customerId?: string;
+    generalLeadgerId?: string;
+    mainAccountId?: string;
+    totalAccountId?: string;
     isActive?: boolean;
 }
 

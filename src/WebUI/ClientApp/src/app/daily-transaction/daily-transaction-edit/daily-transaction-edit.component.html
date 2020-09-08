@@ -13,7 +13,10 @@
                         </label>
                     </div>
                     <div class="col-md-5 d-flex justify-content-between p-0">
-                        <input type="number" class="form-control col-md-4" formControlName="bondUserId">
+                        <input type="number"
+                               class="form-control col-md-4"
+                               formControlName="bondUserId"
+                               (keyup.enter)="getBondInfo(dailyTransactionSvc.dailyTransactionForm.get('bondUserId').value)">
                         <button class="btn btn-primary col-md-1">
                             ...
                         </button>
@@ -26,7 +29,7 @@
                         </label>
                     </div>
                     <div class="col-md-1">
-                        <input type="text" class="form-control" formControlName="bondSno">
+                        <input type="text" class="form-control" formControlName="dailyTransactionBondSNo">
                     </div>
                 </div>
 
@@ -37,8 +40,10 @@
                         </label>
                     </div>
                     <div class="col-md-5 row m-0 p-0">
-                        <input class="form-control  col-md-4" matInput [matDatepicker]="picker"
-                            placeholder="Choose a date">
+                        <input class="form-control  col-md-4" 
+                               matInput [matDatepicker]="picker"
+                               placeholder="Choose a date"
+                               #bondDate>
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
                     </div>
@@ -48,7 +53,7 @@
                         </label>
                     </div>
                     <div class="col-md-1">
-                        <input type="text" class="form-control" formControlName="bondMonth">
+                        <input type="text" class="form-control" formControlName="dailyTransactionMonth">
                     </div>
                 </div>
             </fieldset>
@@ -67,16 +72,19 @@
                     <div class="col-md-2">Credit</div>
                     <div class="col-md-2">Description</div>
                     <div class="col-md-1">
-                        <button class="btn btn-success" (click)="dailyTransactionSvc.addBondDetails()">+</button>
+                        <button class="btn btn-success" (click)="dailyTransactionSvc.addDailyTransactionDetails()">+</button>
                     </div>
                 </div>
-                <div formArrayName="bondDetails"
-                    *ngFor="let item of dailyTransactionSvc.bondDetails.controls; let i=index; let first=first">
+                <div formArrayName="dailyTransactionDetails"
+                    *ngFor="let item of dailyTransactionSvc.dailyTransactionDetails.controls; let i=index; let first=first">
                     <div [formGroupName]="i">
                         <div>
                             <div class="row mb-2">
                                 <div class="col-md-2 d-flex align-items-center">
-                                    <input type="text" class="form-control" formControlName="detailAccountIdByCustomer">
+                                    <input type="text" 
+                                           class="form-control"
+                                           formControlName="detailAccountIdByCustomer"
+                                           (keyup.enter)="getDetailAccountInfo(item.get('detailAccountIdByCustomer').value)">
                                 </div>
                                 <div class="col-md-1 d-flex align-items-center p-0 m-0 " style=" justify-content: center; 
                                 max-width: 1%;
@@ -90,18 +98,18 @@
                                         readonly>
                                 </div>
                                 <div class="col-md-2 d-flex align-items-center">
-                                    <input type="text" class="form-control" formControlName="debitAmount">
+                                    <input type="text" class="form-control" formControlName="dailyTransactionDebitAmount">
                                 </div>
                                 <div class="col-md-2 d-flex align-items-center">
-                                    <input type="text" class="form-control" formControlName="creditAmount">
+                                    <input type="text" class="form-control" formControlName="dailyTransactionCreditAmount">
                                 </div>
                                 <div class="col-md-2 d-flex align-items-center">
-                                    <textarea class="form-control" formControlName="description">
+                                    <textarea class="form-control" formControlName="dailyTransactionDescription">
                                         </textarea>
                                 </div>
                                 <div class="col-md-1 d-flex align-items-center">
                                     <button class="btn btn-danger"
-                                        (click)="dailyTransactionSvc.removeBondDetails(i)">-</button>
+                                        (click)="dailyTransactionSvc.removeDailyTransactionDetails(i)">-</button>
                                 </div>
 
                             </div>

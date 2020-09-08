@@ -12,7 +12,8 @@ namespace Accounting.Application.DetailAccounts.Queries.GetDetailAccounts
 {
     public class GetDetailAccountDetailsQuery : IRequest<DetailAccountDetailsVm>
     {
-        public Guid Id { get; set; }
+        public Guid CustomerId { get; set; }
+        public int DetailAccountIdByCustomer { get; set; }
 
         public class GetDetailAccountDetailsQueryHandler : IRequestHandler<GetDetailAccountDetailsQuery, DetailAccountDetailsVm>
         {
@@ -29,7 +30,7 @@ namespace Accounting.Application.DetailAccounts.Queries.GetDetailAccounts
             {
                 var vm = await _context.DetailAccounts
                     .ProjectTo<DetailAccountDetailsVm>(_mapper.ConfigurationProvider)
-                    .Where(e => e.Id == request.Id)
+                    .Where(e => e.CustomerId == request.CustomerId && e.DetailAccountIdByCustomer == request.DetailAccountIdByCustomer && e.IsActive)
                     .SingleOrDefaultAsync(cancellationToken);
 
                 return vm;

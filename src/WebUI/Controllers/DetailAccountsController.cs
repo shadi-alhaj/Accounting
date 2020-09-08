@@ -27,6 +27,13 @@ namespace Accounting.WebUI.Controllers
             return result;
         }
 
+        [HttpGet]
+        public async Task<ActionResult<DetailAccountDetailsVm>> DetailAccount(Guid customerId, int detailAccountIdByCustomer)
+        {
+            var result = await Mediator.Send(new GetDetailAccountDetailsQuery { CustomerId = customerId, DetailAccountIdByCustomer = detailAccountIdByCustomer });
+            return result;
+        }
+
         [HttpPost]
         public async Task<ActionResult<Guid>> CreateDetailAccount(CreateDetailAccountCommand command)
         {

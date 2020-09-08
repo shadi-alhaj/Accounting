@@ -32,6 +32,11 @@ namespace Accounting.Infrastructure.Persistence.Configurations
                 .OnDelete(DeleteBehavior.Restrict)
                 .HasForeignKey(d => d.MainAccountId);
 
+            builder.HasOne(d => d.TotalAccount)
+                .WithMany(t => t.DetailAccounts)
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasForeignKey(d => d.TotalAccountId);
+
             builder.Property(p => p.DetailAccountNameAr)
                 .HasColumnName($"{tablePrefix}NAME_AR")
                 .HasMaxLength(250)

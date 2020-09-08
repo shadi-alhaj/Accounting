@@ -68,12 +68,12 @@
         }
       }
     },
-    "/api/Bonds/GetBondMaxIdByCustomerId": {
+    "/api/Bonds/BondMaxIdByCustomerId": {
       "get": {
         "tags": [
           "Bonds"
         ],
-        "operationId": "Bonds_GetBondMaxIdByCustomerId",
+        "operationId": "Bonds_BondMaxIdByCustomerId",
         "parameters": [
           {
             "name": "customerId",
@@ -93,6 +93,58 @@
                 "schema": {
                   "type": "integer",
                   "format": "int32"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Bonds/BondByCustomerIdAndBondCustomerIdQuery/{customerId}/{bondUserId}/{finYear}": {
+      "get": {
+        "tags": [
+          "Bonds"
+        ],
+        "operationId": "Bonds_BondByCustomerIdAndBondCustomerIdQuery",
+        "parameters": [
+          {
+            "name": "customerId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "bondUserId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "finYear",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 3
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BondDailyTransactionDto"
                 }
               }
             }
@@ -398,6 +450,44 @@
       }
     },
     "/api/DetailAccounts": {
+      "get": {
+        "tags": [
+          "DetailAccounts"
+        ],
+        "operationId": "DetailAccounts_DetailAccount",
+        "parameters": [
+          {
+            "name": "customerId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "detailAccountIdByCustomer",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DetailAccountDetailsVm"
+                }
+              }
+            }
+          }
+        }
+      },
       "post": {
         "tags": [
           "DetailAccounts"
@@ -1754,6 +1844,28 @@
           }
         }
       },
+      "BondDailyTransactionDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "bondId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "bondNameAr": {
+            "type": "string",
+            "nullable": true
+          },
+          "bondNameEn": {
+            "type": "string",
+            "nullable": true
+          },
+          "bondMaxSNo": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
       "CreateBondCommand": {
         "type": "object",
         "additionalProperties": false,
@@ -2067,6 +2179,47 @@
           "totalAccountIdByCustomer": {
             "type": "integer",
             "format": "int32"
+          },
+          "isActive": {
+            "type": "boolean"
+          }
+        }
+      },
+      "DetailAccountDetailsVm": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "guid"
+          },
+          "detailAccountIdByCustomer": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "detailAccountNameAr": {
+            "type": "string",
+            "nullable": true
+          },
+          "detailAccountNameEn": {
+            "type": "string",
+            "nullable": true
+          },
+          "customerId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "generalLeadgerId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "mainAccountId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "totalAccountId": {
+            "type": "string",
+            "format": "guid"
           },
           "isActive": {
             "type": "boolean"

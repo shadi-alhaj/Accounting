@@ -19,6 +19,7 @@ namespace Accounting.Application.Common.Interfaces
         DbSet<MainAccount> MainAccounts { get; set; }
         DbSet<TotalAccount> TotalAccounts { get; set; }
         DbSet<DetailAccount> DetailAccounts { get; set; }
+        DbSet<DailyTransaction> DailyTransactions { get; set; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }

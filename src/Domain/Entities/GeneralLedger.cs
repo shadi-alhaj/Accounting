@@ -5,13 +5,14 @@ using System.Text;
 
 namespace Accounting.Domain.Entities
 {
-    public class GeneralLedger: AuditableEntity
+    public class GeneralLedger : AuditableEntity
     {
         public GeneralLedger()
         {
             MainAccounts = new List<MainAccount>();
             TotalAccounts = new List<TotalAccount>();
             DetailAccounts = new List<DetailAccount>();
+            DailyTransactions = new List<DailyTransaction>();
         }
         public Guid Id { get; set; }
         public int GlIdByCustomer { get; set; }
@@ -23,6 +24,7 @@ namespace Accounting.Domain.Entities
         public IList<MainAccount> MainAccounts { get; set; }
         public IList<TotalAccount> TotalAccounts { get; set; }
         public IList<DetailAccount> DetailAccounts { get; set; }
+        public IList<DailyTransaction> DailyTransactions { get; set; }
 
     }
 }

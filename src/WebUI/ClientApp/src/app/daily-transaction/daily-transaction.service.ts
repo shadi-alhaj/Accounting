@@ -6,46 +6,56 @@ import { Injectable } from '@angular/core';
 })
 export class DailyTransactionService {
   dailyTransactionForm: FormGroup;
+  customerId = null;
+  financeYear = null;
 
   constructor(private fb: FormBuilder) {
+    const customer = JSON.parse(localStorage.getItem('customer'));
+    this.customerId = customer.cusId;
+    this.financeYear = customer.year;
     this.initalizeDailyTransactionForm();
    }
 
   initalizeDailyTransactionForm() {
     this.dailyTransactionForm = this.fb.group({
+      bondId: '',
       bondUserId: null,
       bondName: '',
-      bondSno: null,
-      bondDate: Date,
-      bondMonth: null,
-      bondyear: null,
-      bondDetails: this.fb.array([this.buildBondDetails()]),
+      dailyTransactionBondSNo: null,
+      dailyTransactionDate: Date,
+      dailyTransactionMonth: null,
+      dailyTransactionYear: null,
+      dailyTransactionDetails: this.fb.array([this.buildDailyTrnsactionDetails()]),
       sumDebit: null,
       sumCredit: null,
       difference: null,
     });
   }
 
-  get bondDetails() : FormArray{
-    return <FormArray> this.dailyTransactionForm.get('bondDetails');
+  get dailyTransactionDetails() : FormArray{
+    return <FormArray> this.dailyTransactionForm.get('dailyTransactionDetails');
   }
 
-  buildBondDetails(): FormGroup{
+  buildDailyTrnsactionDetails(): FormGroup{
     return this.fb.group({
       detailAccountIdByCustomer: null,
+      detailAccountId: '',
       detailAccountNameAr: '',
       detailAccountNameEn: '',
-      debitAmount: null,
-      creditAmount: null,
-      description: ''
+      dailyTransactionDebitAmount: null,
+      dailyTransactionCreditAmount: null,
+      dailyTransactionDescription: '',
+      totalAccountId:'',
+      mainAccountId: '',
+      generalLedgerId: ''
     });
   }
 
-  addBondDetails(){
-    this.bondDetails.push(this.buildBondDetails());
+  addDailyTransactionDetails(){
+    this.dailyTransactionDetails.push(this.buildDailyTrnsactionDetails());
   }
 
-  removeBondDetails(index){
-    this.bondDetails.removeAt(index);
+  removeDailyTransactionDetails(index){
+    this.dailyTransactionDetails.removeAt(index);
   }
 }

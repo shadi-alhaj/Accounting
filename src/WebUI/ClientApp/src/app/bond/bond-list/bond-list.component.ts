@@ -52,7 +52,7 @@ export class BondListComponent implements OnInit {
   }
 
   GetBondMaxIdByCustomerId() {
-    this.bondsClient.getBondMaxIdByCustomerId(this.customerId).subscribe(
+    this.bondsClient.bondMaxIdByCustomerId(this.customerId).subscribe(
       result => {
         this.bondSvc.bondForm.patchValue({
           bondUserId: result
