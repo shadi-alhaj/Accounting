@@ -26,26 +26,45 @@ export class DailyTransactionService {
       dailyTransactionMonth: null,
       dailyTransactionYear: null,
       dailyTransactionDetails: this.fb.array([this.buildDailyTrnsactionDetails()]),
-      sumDebit: null,
-      sumCredit: null,
-      difference: null,
+      sumDebit: 0.000,
+      sumCredit: 0.000,
+      difference: 0.000,
     });
+
+    // this.dailyTransactionForm.get('dailyTransactionDetails')['controls'][4]
+    // .valueChanges.subscribe((newVal) => {
+
+    //     this.dailyTransactionForm.get('sumDebit').patchValue(
+    //       newVal.reduce((acc, curr) => {
+    //         return acc + (+curr.value);
+    //       }, 0)
+    //     )
+
+    // });
+
+    // this.dailyTransactionDetails.get('dailyTransactionDebitAmount')['control'][].valueChanges.subscribe((newVal) => {
+    //   this.dailyTransactionForm.get('sumDebit').patchValue(
+    //     newVal.reduce((acc, curr) => {
+    //       return acc + (+curr.value);
+    //     }, 0)
+    //   )
+    // });
   }
 
   get dailyTransactionDetails() : FormArray{
     return <FormArray> this.dailyTransactionForm.get('dailyTransactionDetails');
   }
-
+  
   buildDailyTrnsactionDetails(): FormGroup{
     return this.fb.group({
       detailAccountIdByCustomer: null,
       detailAccountId: '',
       detailAccountNameAr: '',
       detailAccountNameEn: '',
-      dailyTransactionDebitAmount: null,
-      dailyTransactionCreditAmount: null,
+      dailyTransactionDebitAmount: 0.000,
+      dailyTransactionCreditAmount: 0.000,
       dailyTransactionDescription: '',
-      totalAccountId:'',
+      totalAccountId: '',
       mainAccountId: '',
       generalLedgerId: ''
     });

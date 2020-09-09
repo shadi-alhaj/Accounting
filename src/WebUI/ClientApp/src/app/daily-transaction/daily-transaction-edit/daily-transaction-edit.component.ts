@@ -11,12 +11,24 @@ export class DailyTransactionEditComponent implements OnInit {
 
   pageTitle = 'Daily Transaction';
   @ViewChild('bondDate', { static: false }) bondDateFiled: ElementRef;
-
+  @ViewChild('bondUserId', { static: false }) bondIdFiled: ElementRef;
+  @ViewChild('dailyTransactionDebitAmount', { static: false }) dailyTransactionDebitAmount: ElementRef;
+  total = 0;
   constructor(public dailyTransactionSvc: DailyTransactionService,
               private bondsClient: BondsClient,
               private detailAccountsClient: DetailAccountsClient) { }
 
   ngOnInit() {
+    // this.dailyTransactionDetails.valueChanges
+    // .subscribe( value => {
+    //     this.total = value.reduce((sum, item) => sum += +item.dailyTransactionDebitAmount, 0);
+    // })
+    // console.log('total');
+    // console.log(this.total);
+    
+    // this.dailyTransactionForm.patchValue({
+    //   sumDebit: this.total
+    // })
   }
 
   onSubmit() { }
@@ -45,12 +57,13 @@ export class DailyTransactionEditComponent implements OnInit {
         });
   }
 
-  getDetailAccountInfo(detailAccountIdByCustomer){
+  getDetailAccountInfo(detailAccountIdByCustomer, index){
     this.detailAccountsClient.detailAccount(this.dailyTransactionSvc.customerId, detailAccountIdByCustomer)
     .subscribe(
       result => {
         if(result){
-          this.dailyTransactionSvc.dailyTransactionForm.patchValue({
+          console.log(result);
+          this.dailyTransactionSvc.dailyTransactionDetails.at(index).patchValue({
             detailAccountNameAr: result.detailAccountNameAr,
             detailAccountNameEn: result.detailAccountNameEn,
             generalLedgerId: result.generalLeadgerId,
@@ -59,11 +72,19 @@ export class DailyTransactionEditComponent implements OnInit {
             detailAccountId: result.id,
             dailyTransactionYear: this.dailyTransactionSvc.financeYear,
           });
+
+          this.dailyTransactionDebitAmount.nativeElement.focus();
+          this.dailyTransactionDebitAmount.nativeElement.select();
         } 
       },
       error => {
         console.log(error);        
       });
+  }
+
+  onClose(){
+    this.dailyTransactionSvc.initalizeDailyTransactionForm();
+    this.bondIdFiled.nativeElement.focus();
   }
 
 }

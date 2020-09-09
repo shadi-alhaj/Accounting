@@ -16,6 +16,7 @@
                         <input type="number"
                                class="form-control col-md-4"
                                formControlName="bondUserId"
+                               #bondUserId
                                (keyup.enter)="getBondInfo(dailyTransactionSvc.dailyTransactionForm.get('bondUserId').value)">
                         <button class="btn btn-primary col-md-1">
                             ...
@@ -76,7 +77,7 @@
                     </div>
                 </div>
                 <div formArrayName="dailyTransactionDetails"
-                    *ngFor="let item of dailyTransactionSvc.dailyTransactionDetails.controls; let i=index; let first=first">
+                    *ngFor="let item of dailyTransactionSvc.dailyTransactionDetails.controls; let i=index; let first=first; let last=last;">
                     <div [formGroupName]="i">
                         <div>
                             <div class="row mb-2">
@@ -84,7 +85,7 @@
                                     <input type="text" 
                                            class="form-control"
                                            formControlName="detailAccountIdByCustomer"
-                                           (keyup.enter)="getDetailAccountInfo(item.get('detailAccountIdByCustomer').value)">
+                                           (keyup.enter)="getDetailAccountInfo(item.get('detailAccountIdByCustomer').value, i)">
                                 </div>
                                 <div class="col-md-1 d-flex align-items-center p-0 m-0 " style=" justify-content: center; 
                                 max-width: 1%;
@@ -98,10 +99,13 @@
                                         readonly>
                                 </div>
                                 <div class="col-md-2 d-flex align-items-center">
-                                    <input type="text" class="form-control" formControlName="dailyTransactionDebitAmount">
+                                    <input type="number" 
+                                           class="form-control" 
+                                           formControlName="dailyTransactionDebitAmount"
+                                           #dailyTransactionDebitAmount>
                                 </div>
                                 <div class="col-md-2 d-flex align-items-center">
-                                    <input type="text" class="form-control" formControlName="dailyTransactionCreditAmount">
+                                    <input type="number" class="form-control" formControlName="dailyTransactionCreditAmount">
                                 </div>
                                 <div class="col-md-2 d-flex align-items-center">
                                     <textarea class="form-control" formControlName="dailyTransactionDescription">
@@ -111,11 +115,61 @@
                                     <button class="btn btn-danger"
                                         (click)="dailyTransactionSvc.removeDailyTransactionDetails(i)">-</button>
                                 </div>
-
-                            </div>
+                            </div>                           
                         </div>
                     </div>
-
+                </div>
+                <div class="row mb-1 text-center" >
+                    <div class="col-md-2"> </div>
+                    <div class="col-md-1" style=" padding: 0; display: flex;
+                    margin: 0;
+                    justify-content: center;
+                    max-width: 1%;"></div>
+                    <div class="col-md-2"> </div>
+                    <div class="col-md-2">
+                        <input type="number" 
+                               class="form-control"
+                               formControlName="sumDebit"
+                               [readOnly]="true">
+                    </div>
+                    <div class="col-md-2">
+                        <input type="number" 
+                               class="form-control"
+                               formControlName="sumCredit"
+                               [readOnly]="true">
+                    </div>
+                    <div class="col-md-2"></div>
+                    <div class="col-md-1">
+                      
+                    </div>
+                </div>
+                <div class="row mb-1 text-center" >
+                    <div class="col-md-2"> </div>
+                    <div class="col-md-1" style=" padding: 0; display: flex;
+                    margin: 0;
+                    justify-content: center;
+                    max-width: 1%;"></div>
+                    <div class="col-md-2"> </div>                                
+                    <div class="col-md-4">
+                        <input type="number" 
+                               class="form-control"
+                               formControlName="difference"
+                               [readOnly]="true" >
+                    </div>
+                    <div class="col-md-2"></div>
+                    <div class="col-md-1">
+                      
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="clearfix">
+                        <div class="float-right">
+                            <button class="btn btn-default mr-1" (click)="onClose(); $event.preventDefault()">Cancel</button>
+                            <button class="btn btn-primary" [disabled]="!dailyTransactionSvc.dailyTransactionForm.valid">
+                                    Create
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </fieldset>
         </form>
