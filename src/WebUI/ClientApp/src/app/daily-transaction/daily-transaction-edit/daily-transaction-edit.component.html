@@ -3,7 +3,10 @@
         <h1>{{pageTitle}}</h1>
     </div>
     <div class="card-bdoy">
-        <form [formGroup]="dailyTransactionSvc.dailyTransactionForm" autocomplete="off" (submit)="onSubmit()">
+        <form [formGroup]="dailyTransactionSvc.dailyTransactionForm" 
+              autocomplete="off"
+              (submit)="onSubmit()"
+              (keydown.enter)="$event.preventDefault()">
             <fieldset class="p-3" style="border: 1px red solid;">
                 <legend style="width: auto;">Bond Data</legend>
                 <div class="row mt-2">
@@ -17,11 +20,16 @@
                                class="form-control col-md-4"
                                formControlName="bondUserId"
                                #bondUserId
-                               (keyup.enter)="getBondInfo(dailyTransactionSvc.dailyTransactionForm.get('bondUserId').value)">
-                        <button class="btn btn-primary col-md-1">
+                               (keyup.enter)="getBondInfo(dailyTransactionSvc.dailyTransactionForm.get('bondUserId').value)"
+                               tabindex="1">
+                        <button class="btn btn-primary col-md-1"
+                                tabindex="-1">
                             ...
                         </button>
-                        <input type="text" class="form-control col-md-6" formControlName="bondName" readonly>
+                        <input type="text" class="form-control col-md-6" 
+                               formControlName="bondName" 
+                               tabindex="-1"
+                               readonly>
                     </div>
 
                     <div class="col-md-1 ml-5">
@@ -44,7 +52,8 @@
                         <input class="form-control  col-md-4" 
                                matInput [matDatepicker]="picker"
                                placeholder="Choose a date"
-                               #bondDate>
+                               #bondDate
+                               formControlName="dailyTransactionDate">
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
                     </div>
@@ -73,11 +82,11 @@
                     <div class="col-md-2">Credit</div>
                     <div class="col-md-2">Description</div>
                     <div class="col-md-1">
-                        <button class="btn btn-success" (click)="dailyTransactionSvc.addDailyTransactionDetails()">+</button>
+                        <button class="btn btn-success" (click)="dailyTransactionSvc.addDailyTransactionDetails(); $event.preventDefault()">+</button>
                     </div>
                 </div>
-                <div formArrayName="dailyTransactionDetails"
-                    *ngFor="let item of dailyTransactionSvc.dailyTransactionDetails.controls; let i=index; let first=first; let last=last;">
+                <div formArrayName="dailyTransactionDetailsList"
+                    *ngFor="let item of dailyTransactionSvc.dailyTransactionDetailsList.controls; let i=index; let first=first; let last=last;">
                     <div [formGroupName]="i">
                         <div>
                             <div class="row mb-2">
@@ -85,7 +94,8 @@
                                     <input type="text" 
                                            class="form-control"
                                            formControlName="detailAccountIdByCustomer"
-                                           (keyup.enter)="getDetailAccountInfo(item.get('detailAccountIdByCustomer').value, i)">
+                                           (keyup.enter)="getDetailAccountInfo(item.get('detailAccountIdByCustomer').value, i)" >
+                                           <!-- (keydown)="onKeyDown($event, i)" -->
                                 </div>
                                 <div class="col-md-1 d-flex align-items-center p-0 m-0 " style=" justify-content: center; 
                                 max-width: 1%;
@@ -113,7 +123,7 @@
                                 </div>
                                 <div class="col-md-1 d-flex align-items-center">
                                     <button class="btn btn-danger"
-                                        (click)="dailyTransactionSvc.removeDailyTransactionDetails(i)">-</button>
+                                        (click)="dailyTransactionSvc.removeDailyTransactionDetails(i); $event.preventDefault()">-</button>
                                 </div>
                             </div>                           
                         </div>
@@ -165,7 +175,7 @@
                     <div class="clearfix">
                         <div class="float-right">
                             <button class="btn btn-default mr-1" (click)="onClose(); $event.preventDefault()">Cancel</button>
-                            <button class="btn btn-primary" [disabled]="!dailyTransactionSvc.dailyTransactionForm.valid">
+                            <button class="btn btn-primary" type="submit" [disabled]="!dailyTransactionSvc.dailyTransactionForm.valid">
                                     Create
                             </button>
                         </div>

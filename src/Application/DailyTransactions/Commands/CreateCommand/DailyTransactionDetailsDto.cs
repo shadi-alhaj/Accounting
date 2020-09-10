@@ -4,7 +4,7 @@ namespace Accounting.Application.DailyTransactions.Commands.CreateCommand
 {
     public partial class CreateDailyTransactionCommand
     {
-        public class DailyTransactionDetails
+        public class DailyTransactionDetailsDto
         {
             public decimal DailyTransactionDebitAmount { get; set; }
             public decimal DailyTransactionCreditAmount { get; set; }

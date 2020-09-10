@@ -1,6 +1,6 @@
-import { BondsClient, DetailAccountsClient } from 'src/app/accounting-api';
+import { BondsClient, DetailAccountsClient, DailyTransactionsClient, CreateDailyTransactionCommand } from 'src/app/accounting-api';
 import { DailyTransactionService } from './../daily-transaction.service';
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, QueryList, ViewChildren } from '@angular/core';
 
 @Component({
   selector: 'app-daily-transaction-edit',
@@ -14,11 +14,17 @@ export class DailyTransactionEditComponent implements OnInit {
   @ViewChild('bondUserId', { static: false }) bondIdFiled: ElementRef;
   @ViewChild('dailyTransactionDebitAmount', { static: false }) dailyTransactionDebitAmount: ElementRef;
   total = 0;
-  constructor(public dailyTransactionSvc: DailyTransactionService,
+  constructor(private dailyTransactionsClient: DailyTransactionsClient,
+              public dailyTransactionSvc: DailyTransactionService,
               private bondsClient: BondsClient,
               private detailAccountsClient: DetailAccountsClient) { }
 
   ngOnInit() {
+
+    this.dailyTransactionSvc.dailyTransactionForm.patchValue({
+      customerId: this.dailyTransactionSvc.customerId,
+      dailyTransactionYear: this.dailyTransactionSvc.financeYear
+    });
     // this.dailyTransactionDetails.valueChanges
     // .subscribe( value => {
     //     this.total = value.reduce((sum, item) => sum += +item.dailyTransactionDebitAmount, 0);
@@ -31,9 +37,23 @@ export class DailyTransactionEditComponent implements OnInit {
     // })
   }
 
-  onSubmit() { }
+  onSubmit() {
+    console.log('onSubmit');
+    console.log(this.dailyTransactionSvc.dailyTransactionForm.value);
+    this.dailyTransactionsClient
+      .createDailyTransaction(CreateDailyTransactionCommand.fromJS(this.dailyTransactionSvc.dailyTransactionForm.value))
+      .subscribe(result => {
+        console.log(result);
+      },
+      error => {
+        console.log(error);
+      });
+
+   }
 
   getBondInfo(bondUserId: number): void {
+    console.log('getBondInfo');
+
     this.bondsClient.bondByCustomerIdAndBondCustomerIdQuery(this.dailyTransactionSvc.customerId, 
       bondUserId, this.dailyTransactionSvc.financeYear)
       .subscribe(
@@ -42,7 +62,7 @@ export class DailyTransactionEditComponent implements OnInit {
             this.dailyTransactionSvc.dailyTransactionForm.patchValue({
               bondId: result.bondId,
               bondName: result.bondNameAr,
-              bondSno: result.bondMaxSNo
+              dailyTransactionBondSNo: result.bondMaxSNo
             });
             this.bondDateFiled.nativeElement.focus();
           }
@@ -58,12 +78,14 @@ export class DailyTransactionEditComponent implements OnInit {
   }
 
   getDetailAccountInfo(detailAccountIdByCustomer, index){
+    console.log('getDetailAccountInfo');
+
     this.detailAccountsClient.detailAccount(this.dailyTransactionSvc.customerId, detailAccountIdByCustomer)
     .subscribe(
       result => {
         if(result){
           console.log(result);
-          this.dailyTransactionSvc.dailyTransactionDetails.at(index).patchValue({
+          this.dailyTransactionSvc.dailyTransactionDetailsList.at(index).patchValue({
             detailAccountNameAr: result.detailAccountNameAr,
             detailAccountNameEn: result.detailAccountNameEn,
             generalLedgerId: result.generalLeadgerId,
@@ -81,8 +103,22 @@ export class DailyTransactionEditComponent implements OnInit {
         console.log(error);        
       });
   }
+  // @ViewChildren("input") inputs: QueryList<any>
+  
+  // onKeyDown(event, index){
+  //   console.log('onKeyDown');
+    
+  //   if(event.key =="Enter"){
+  //     if(index + 1 < this.inputs.toArray().length){
+  //       this.inputs.toArray()[index+3].nativeElement.focus();
+  //     }else {
+  //       this.inputs.toArray()[0].nativeElement.focus();
+  //     }
+  //   }
+  // }
 
   onClose(){
+    console.log('close');
     this.dailyTransactionSvc.initalizeDailyTransactionForm();
     this.bondIdFiled.nativeElement.focus();
   }

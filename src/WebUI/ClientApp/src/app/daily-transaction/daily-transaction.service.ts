@@ -21,17 +21,18 @@ export class DailyTransactionService {
       bondId: '',
       bondUserId: null,
       bondName: '',
+      customerId: '',
       dailyTransactionBondSNo: null,
       dailyTransactionDate: Date,
       dailyTransactionMonth: null,
       dailyTransactionYear: null,
-      dailyTransactionDetails: this.fb.array([this.buildDailyTrnsactionDetails()]),
+      dailyTransactionDetailsList: this.fb.array([this.buildDailyTrnsactionDetails()]),
       sumDebit: 0.000,
       sumCredit: 0.000,
       difference: 0.000,
     });
 
-    // this.dailyTransactionForm.get('dailyTransactionDetails')['controls'][4]
+    // this.dailyTransactionForm.get('dailyTransactionDetailsList')['controls'][4]
     // .valueChanges.subscribe((newVal) => {
 
     //     this.dailyTransactionForm.get('sumDebit').patchValue(
@@ -42,7 +43,7 @@ export class DailyTransactionService {
 
     // });
 
-    // this.dailyTransactionDetails.get('dailyTransactionDebitAmount')['control'][].valueChanges.subscribe((newVal) => {
+    // this.dailyTransactionDetailsList.get('dailyTransactionDebitAmount')['control'][].valueChanges.subscribe((newVal) => {
     //   this.dailyTransactionForm.get('sumDebit').patchValue(
     //     newVal.reduce((acc, curr) => {
     //       return acc + (+curr.value);
@@ -51,8 +52,8 @@ export class DailyTransactionService {
     // });
   }
 
-  get dailyTransactionDetails() : FormArray{
-    return <FormArray> this.dailyTransactionForm.get('dailyTransactionDetails');
+  get dailyTransactionDetailsList() : FormArray{
+    return <FormArray> this.dailyTransactionForm.get('dailyTransactionDetailsList');
   }
   
   buildDailyTrnsactionDetails(): FormGroup{
@@ -71,10 +72,10 @@ export class DailyTransactionService {
   }
 
   addDailyTransactionDetails(){
-    this.dailyTransactionDetails.push(this.buildDailyTrnsactionDetails());
+    this.dailyTransactionDetailsList.push(this.buildDailyTrnsactionDetails());
   }
 
   removeDailyTransactionDetails(index){
-    this.dailyTransactionDetails.removeAt(index);
+    this.dailyTransactionDetailsList.removeAt(index);
   }
 }

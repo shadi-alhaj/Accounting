@@ -375,6 +375,39 @@
         }
       }
     },
+    "/api/DailyTransactions": {
+      "post": {
+        "tags": [
+          "DailyTransactions"
+        ],
+        "operationId": "DailyTransactions_CreateDailyTransaction",
+        "requestBody": {
+          "x-name": "command",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDailyTransactionCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "guid"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/DetailAccounts/customerId": {
       "get": {
         "tags": [
@@ -2120,6 +2153,81 @@
           "email": {
             "type": "string",
             "nullable": true
+          }
+        }
+      },
+      "CreateDailyTransactionCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "dailyTransactionIdByCustomer": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "customerId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "bondId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "dailyTransactionBondSNo": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dailyTransactionDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dailyTransactionMonth": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dailyTransactionYear": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dailyTransactionDetailsList": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/DailyTransactionDetailsDto"
+            }
+          }
+        }
+      },
+      "DailyTransactionDetailsDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "dailyTransactionDebitAmount": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "dailyTransactionCreditAmount": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "dailyTransactionDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "detailAccountId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "totalAccountId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "mainAccountId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "generalLedgerId": {
+            "type": "string",
+            "format": "guid"
           }
         }
       },

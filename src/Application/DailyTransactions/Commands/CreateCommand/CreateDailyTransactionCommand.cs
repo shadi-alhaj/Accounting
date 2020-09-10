@@ -12,7 +12,7 @@ namespace Accounting.Application.DailyTransactions.Commands.CreateCommand
     {
         public CreateDailyTransactionCommand()
         {
-            DailyTransactionDetailsList = new List<DailyTransactionDetails>();
+            DailyTransactionDetailsList = new List<DailyTransactionDetailsDto>();
         }
 
         public int DailyTransactionIdByCustomer { get; set; }
@@ -22,7 +22,7 @@ namespace Accounting.Application.DailyTransactions.Commands.CreateCommand
         public DateTime DailyTransactionDate { get; set; }
         public int DailyTransactionMonth { get; set; }
         public int DailyTransactionYear { get; set; }
-        public List<DailyTransactionDetails> DailyTransactionDetailsList { get; set; }
+        public List<DailyTransactionDetailsDto> DailyTransactionDetailsList { get; set; }
 
         public class CreateDailyTransactionCommandHandler : IRequestHandler<CreateDailyTransactionCommand, Guid>
         {
