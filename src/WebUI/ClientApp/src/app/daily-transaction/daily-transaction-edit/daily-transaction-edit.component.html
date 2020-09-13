@@ -21,7 +21,18 @@
                                formControlName="bondUserId"
                                #bondUserId
                                (keyup.enter)="getBondInfo(dailyTransactionSvc.dailyTransactionForm.get('bondUserId').value)"
-                               tabindex="1">
+                               tabindex="1"
+                               [ngClass]="{'is-invalid':  dailyTransactionSvc.dailyTransactionForm.get('bondUserId').errors && 
+                                                         (dailyTransactionSvc.dailyTransactionForm.get('bondUserId').touched || 
+                                                          dailyTransactionSvc.dailyTransactionForm.get('bondUserId').dirty)  }">
+                        <span class="invalid-feedback">
+                                <span *ngIf="dailyTransactionSvc.dailyTransactionForm.get('bondUserId').errors?.required">
+                                    This Field is mandatory, Please enter Bond type
+                                </span>
+                         </span>
+                         <span *ngIf="errorMessages.BondId">
+                            {{errorMessages.BondId}}
+                        </span>
                         <button class="btn btn-primary col-md-1" 
                                 tabindex="-1">
                             ...
@@ -30,6 +41,7 @@
                                formControlName="bondName" 
                                tabindex="-1"
                                readonly>
+                        
                     </div>
 
                     <div class="col-md-1 ml-5">

@@ -15,30 +15,19 @@ export class DailyTransactionEditComponent implements OnInit {
   @ViewChild('bondDate', { static: false }) bondDateFiled: ElementRef;
   @ViewChild('bondUserId', { static: false }) bondIdFiled: ElementRef;
   @ViewChild('dailyTransactionDebitAmount', { static: false }) dailyTransactionDebitAmount: ElementRef;
-  total = 0;
+  errorMessages = {DailyTransactionBondSNo: '', CustomerId: '', BondId: '', DailyTransactionDate: '',
+   DailyTransactionMonth: '', DailyTransactionDetailsList: ''};
+
   constructor(private dailyTransactionsClient: DailyTransactionsClient,
               public dailyTransactionSvc: DailyTransactionService,
               private bondsClient: BondsClient,
               private detailAccountsClient: DetailAccountsClient) { }
 
   ngOnInit() {
-
-    //this.dailyTransactionSvc.initalizeDailyTransactionForm();
-
     this.dailyTransactionSvc.dailyTransactionForm.patchValue({
       customerId: this.dailyTransactionSvc.customerId,
       dailyTransactionYear: this.dailyTransactionSvc.financeYear
     });
-    // this.dailyTransactionDetails.valueChanges
-    // .subscribe( value => {
-    //     this.total = value.reduce((sum, item) => sum += +item.dailyTransactionDebitAmount, 0);
-    // })
-    // console.log('total');
-    // console.log(this.total);
-    
-    // this.dailyTransactionForm.patchValue({
-    //   sumDebit: this.total
-    // })
   }
 
   onSubmit() {
@@ -50,14 +39,12 @@ export class DailyTransactionEditComponent implements OnInit {
         console.log(result);
       },
       error => {
-        console.log(error);
+        this.errorMessages = JSON.parse(error.response);
       });
 
    }
 
-  getBondInfo(bondUserId: number): void {
-    console.log('getBondInfo');
-
+  getBondInfo(bondUserId: number): void { 
     this.bondsClient.bondByCustomerIdAndBondCustomerIdQuery(this.dailyTransactionSvc.customerId, 
       bondUserId, this.dailyTransactionSvc.financeYear)
       .subscribe(
@@ -72,7 +59,7 @@ export class DailyTransactionEditComponent implements OnInit {
           }
         },
         error => {
-          console.log(error);
+          this.errorMessages = JSON.parse(error.response);
           this.dailyTransactionSvc.dailyTransactionForm.patchValue({
             bondId: '',
             bondName: '',
