@@ -22,7 +22,7 @@
                                #bondUserId
                                (keyup.enter)="getBondInfo(dailyTransactionSvc.dailyTransactionForm.get('bondUserId').value)"
                                tabindex="1">
-                        <button class="btn btn-primary col-md-1"
+                        <button class="btn btn-primary col-md-1" 
                                 tabindex="-1">
                             ...
                         </button>
@@ -38,7 +38,10 @@
                         </label>
                     </div>
                     <div class="col-md-1">
-                        <input type="text" class="form-control" formControlName="dailyTransactionBondSNo">
+                        <input type="number"
+                               class="form-control text-center" 
+                               formControlName="dailyTransactionBondSNo"
+                               readonly>
                     </div>
                 </div>
 
@@ -63,7 +66,10 @@
                         </label>
                     </div>
                     <div class="col-md-1">
-                        <input type="text" class="form-control" formControlName="dailyTransactionMonth">
+                        <input type="text" 
+                               class="form-control text-center" 
+                               formControlName="dailyTransactionMonth"
+                               readonly>
                     </div>
                 </div>
             </fieldset>
@@ -98,8 +104,7 @@
                                            <!-- (keydown)="onKeyDown($event, i)" -->
                                 </div>
                                 <div class="col-md-1 d-flex align-items-center p-0 m-0 " style=" justify-content: center; 
-                                max-width: 1%;
-                               ">
+                                max-width: 1%;">
                                     <button class="btn btn-primary">
                                         ...
                                     </button>
@@ -110,15 +115,19 @@
                                 </div>
                                 <div class="col-md-2 d-flex align-items-center">
                                     <input type="number" 
-                                           class="form-control" 
+                                           class="form-control text-center" 
                                            formControlName="dailyTransactionDebitAmount"
                                            #dailyTransactionDebitAmount>
                                 </div>
                                 <div class="col-md-2 d-flex align-items-center">
-                                    <input type="number" class="form-control" formControlName="dailyTransactionCreditAmount">
+                                    <input type="number" 
+                                           class="form-control text-center"
+                                           formControlName="dailyTransactionCreditAmount">
                                 </div>
                                 <div class="col-md-2 d-flex align-items-center">
-                                    <textarea class="form-control" formControlName="dailyTransactionDescription">
+                                    <textarea class="form-control" 
+                                              formControlName="dailyTransactionDescription"
+                                              (keyup.enter)="dailyTransactionSvc.addDailyTransactionDetails()">
                                         </textarea>
                                 </div>
                                 <div class="col-md-1 d-flex align-items-center">
@@ -138,13 +147,15 @@
                     <div class="col-md-2"> </div>
                     <div class="col-md-2">
                         <input type="number" 
-                               class="form-control"
+                               class="form-control text-center"
+                               [value]="dailyTransactionSvc.dailyTransactionForm.get('sumDebit').value | number:'1.3-3'"
                                formControlName="sumDebit"
                                [readOnly]="true">
                     </div>
                     <div class="col-md-2">
                         <input type="number" 
-                               class="form-control"
+                               class="form-control text-center"
+                               [value]="dailyTransactionSvc.dailyTransactionForm.get('sumCredit').value | number:'1.3-3'"
                                formControlName="sumCredit"
                                [readOnly]="true">
                     </div>
@@ -162,7 +173,8 @@
                     <div class="col-md-2"> </div>                                
                     <div class="col-md-4">
                         <input type="number" 
-                               class="form-control"
+                               class="form-control text-center"
+                               [value]="dailyTransactionSvc.dailyTransactionForm.get('difference').value | number:'1.3-3'"
                                formControlName="difference"
                                [readOnly]="true" >
                     </div>

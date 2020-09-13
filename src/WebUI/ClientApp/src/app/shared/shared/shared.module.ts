@@ -1,3 +1,4 @@
+
 import { MaterialModule } from './../material/material.module';
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
@@ -9,7 +10,7 @@ import { CustomerLovComponent } from '../lov/customer-lov/customer-lov.component
 import { SelectDropDownModule } from 'ngx-select-dropdown';
 import { SideBarMenuComponent } from '../side-bar-menu/side-bar-menu.component';
 import { GeneralLeadgerLovComponent } from '../lov/general-leadger-lov/general-leadger-lov.component';
-import { GeneralLedgerListComponent } from '../general-ledger-list/general-ledger-list.component'
+import { GeneralLedgerListComponent } from '../general-ledger-list/general-ledger-list.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,7 @@ import { GeneralLedgerListComponent } from '../general-ledger-list/general-ledge
     RouterModule,
     CustomerLovComponent,
     SideBarMenuComponent,
-    GeneralLedgerListComponent
+    GeneralLedgerListComponent,
   ],
   entryComponents: [
     ConfirmationDialogComponent,

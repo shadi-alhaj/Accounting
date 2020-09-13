@@ -21,6 +21,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { BondModule } from './bond/bond.module';
 import { AccountTreeModule } from './account-tree/account-tree.module';
 import { DailyTransactionModule } from './daily-transaction/daily-transaction.module';
+import { AppDateAdapter, APP_DATE_FORMATS } from './shared/date/date.adapter';
+import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -49,6 +51,8 @@ import { DailyTransactionModule } from './daily-transaction/daily-transaction.mo
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },
+    {  provide: DateAdapter, useClass: AppDateAdapter },
+    {  provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS  }
   ],
   bootstrap: [AppComponent]
 })

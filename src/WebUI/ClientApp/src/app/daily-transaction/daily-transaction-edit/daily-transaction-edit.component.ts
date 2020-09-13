@@ -1,6 +1,8 @@
-import { BondsClient, DetailAccountsClient, DailyTransactionsClient, CreateDailyTransactionCommand } from 'src/app/accounting-api';
+import { BondsClient, DetailAccountsClient, 
+         DailyTransactionsClient, CreateDailyTransactionCommand } from 'src/app/accounting-api';
 import { DailyTransactionService } from './../daily-transaction.service';
-import { Component, OnInit, ViewChild, ElementRef, QueryList, ViewChildren } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef} from '@angular/core';
+
 
 @Component({
   selector: 'app-daily-transaction-edit',
@@ -20,6 +22,8 @@ export class DailyTransactionEditComponent implements OnInit {
               private detailAccountsClient: DetailAccountsClient) { }
 
   ngOnInit() {
+
+    //this.dailyTransactionSvc.initalizeDailyTransactionForm();
 
     this.dailyTransactionSvc.dailyTransactionForm.patchValue({
       customerId: this.dailyTransactionSvc.customerId,
