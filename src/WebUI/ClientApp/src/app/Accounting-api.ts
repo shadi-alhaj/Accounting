@@ -625,7 +625,10 @@ export class CustomersClient implements ICustomersClient {
 }
 
 export interface IDailyTransactionsClient {
+    dailyTransactionBySNoAndFinanceYearQuery(customerId: string | undefined, financeYear: number | undefined, bondSno: number | undefined): Observable<DailyTransactionVm>;
     createDailyTransaction(command: CreateDailyTransactionCommand): Observable<string>;
+    firstDailyTransactionRecord(customerId: string | undefined, financeYear: number | undefined): Observable<DailyTransactionVm>;
+    lastDailyTransactionRecord(customerId: string | undefined, financeYear: number | undefined): Observable<DailyTransactionVm>;
 }
 
 @Injectable({
@@ -639,6 +642,66 @@ export class DailyTransactionsClient implements IDailyTransactionsClient {
     constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
         this.http = http;
         this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    dailyTransactionBySNoAndFinanceYearQuery(customerId: string | undefined, financeYear: number | undefined, bondSno: number | undefined): Observable<DailyTransactionVm> {
+        let url_ = this.baseUrl + "/api/DailyTransactions?";
+        if (customerId === null)
+            throw new Error("The parameter 'customerId' cannot be null.");
+        else if (customerId !== undefined)
+            url_ += "customerId=" + encodeURIComponent("" + customerId) + "&"; 
+        if (financeYear === null)
+            throw new Error("The parameter 'financeYear' cannot be null.");
+        else if (financeYear !== undefined)
+            url_ += "financeYear=" + encodeURIComponent("" + financeYear) + "&"; 
+        if (bondSno === null)
+            throw new Error("The parameter 'bondSno' cannot be null.");
+        else if (bondSno !== undefined)
+            url_ += "bondSno=" + encodeURIComponent("" + bondSno) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDailyTransactionBySNoAndFinanceYearQuery(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDailyTransactionBySNoAndFinanceYearQuery(<any>response_);
+                } catch (e) {
+                    return <Observable<DailyTransactionVm>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<DailyTransactionVm>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDailyTransactionBySNoAndFinanceYearQuery(response: HttpResponseBase): Observable<DailyTransactionVm> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = DailyTransactionVm.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<DailyTransactionVm>(<any>null);
     }
 
     createDailyTransaction(command: CreateDailyTransactionCommand): Observable<string> {
@@ -691,6 +754,118 @@ export class DailyTransactionsClient implements IDailyTransactionsClient {
             }));
         }
         return _observableOf<string>(<any>null);
+    }
+
+    firstDailyTransactionRecord(customerId: string | undefined, financeYear: number | undefined): Observable<DailyTransactionVm> {
+        let url_ = this.baseUrl + "/api/DailyTransactions/FirstDailyTransactionRecord?";
+        if (customerId === null)
+            throw new Error("The parameter 'customerId' cannot be null.");
+        else if (customerId !== undefined)
+            url_ += "customerId=" + encodeURIComponent("" + customerId) + "&"; 
+        if (financeYear === null)
+            throw new Error("The parameter 'financeYear' cannot be null.");
+        else if (financeYear !== undefined)
+            url_ += "financeYear=" + encodeURIComponent("" + financeYear) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processFirstDailyTransactionRecord(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processFirstDailyTransactionRecord(<any>response_);
+                } catch (e) {
+                    return <Observable<DailyTransactionVm>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<DailyTransactionVm>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processFirstDailyTransactionRecord(response: HttpResponseBase): Observable<DailyTransactionVm> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = DailyTransactionVm.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<DailyTransactionVm>(<any>null);
+    }
+
+    lastDailyTransactionRecord(customerId: string | undefined, financeYear: number | undefined): Observable<DailyTransactionVm> {
+        let url_ = this.baseUrl + "/api/DailyTransactions/LastDailyTransactionRecord?";
+        if (customerId === null)
+            throw new Error("The parameter 'customerId' cannot be null.");
+        else if (customerId !== undefined)
+            url_ += "customerId=" + encodeURIComponent("" + customerId) + "&"; 
+        if (financeYear === null)
+            throw new Error("The parameter 'financeYear' cannot be null.");
+        else if (financeYear !== undefined)
+            url_ += "financeYear=" + encodeURIComponent("" + financeYear) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processLastDailyTransactionRecord(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processLastDailyTransactionRecord(<any>response_);
+                } catch (e) {
+                    return <Observable<DailyTransactionVm>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<DailyTransactionVm>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processLastDailyTransactionRecord(response: HttpResponseBase): Observable<DailyTransactionVm> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = DailyTransactionVm.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<DailyTransactionVm>(<any>null);
     }
 }
 
@@ -3517,6 +3692,166 @@ export interface IUpdateCustomerCommand {
     city?: string | undefined;
     address?: string | undefined;
     email?: string | undefined;
+}
+
+export class DailyTransactionVm implements IDailyTransactionVm {
+    lists?: DailyTransactionDto[] | undefined;
+
+    constructor(data?: IDailyTransactionVm) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (Array.isArray(data["lists"])) {
+                this.lists = [] as any;
+                for (let item of data["lists"])
+                    this.lists!.push(DailyTransactionDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): DailyTransactionVm {
+        data = typeof data === 'object' ? data : {};
+        let result = new DailyTransactionVm();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.lists)) {
+            data["lists"] = [];
+            for (let item of this.lists)
+                data["lists"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IDailyTransactionVm {
+    lists?: DailyTransactionDto[] | undefined;
+}
+
+export class DailyTransactionDto implements IDailyTransactionDto {
+    id?: string;
+    dailyTransactionIdByCustomer?: number;
+    dailyTransactionBondSNo?: number;
+    dailyTransactionDate?: Date;
+    dailyTransactionMonth?: number;
+    dailyTransactionYear?: number;
+    dailyTransactionDebitAmount?: number;
+    dailyTransactionCreditAmount?: number;
+    dailyTransactionDescription?: string | undefined;
+    isActive?: boolean;
+    customerId?: string;
+    bondId?: string;
+    bondUserId?: number;
+    bondName?: string | undefined;
+    detailAccountId?: string;
+    detailAccountIdByCustomer?: number;
+    detailAccountNameAr?: string | undefined;
+    detailAccountNameEn?: string | undefined;
+    totalAccountId?: string;
+    mainAccountId?: string;
+    generalLedgerId?: string;
+
+    constructor(data?: IDailyTransactionDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.dailyTransactionIdByCustomer = data["dailyTransactionIdByCustomer"];
+            this.dailyTransactionBondSNo = data["dailyTransactionBondSNo"];
+            this.dailyTransactionDate = data["dailyTransactionDate"] ? new Date(data["dailyTransactionDate"].toString()) : <any>undefined;
+            this.dailyTransactionMonth = data["dailyTransactionMonth"];
+            this.dailyTransactionYear = data["dailyTransactionYear"];
+            this.dailyTransactionDebitAmount = data["dailyTransactionDebitAmount"];
+            this.dailyTransactionCreditAmount = data["dailyTransactionCreditAmount"];
+            this.dailyTransactionDescription = data["dailyTransactionDescription"];
+            this.isActive = data["isActive"];
+            this.customerId = data["customerId"];
+            this.bondId = data["bondId"];
+            this.bondUserId = data["bondUserId"];
+            this.bondName = data["bondName"];
+            this.detailAccountId = data["detailAccountId"];
+            this.detailAccountIdByCustomer = data["detailAccountIdByCustomer"];
+            this.detailAccountNameAr = data["detailAccountNameAr"];
+            this.detailAccountNameEn = data["detailAccountNameEn"];
+            this.totalAccountId = data["totalAccountId"];
+            this.mainAccountId = data["mainAccountId"];
+            this.generalLedgerId = data["generalLedgerId"];
+        }
+    }
+
+    static fromJS(data: any): DailyTransactionDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new DailyTransactionDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["dailyTransactionIdByCustomer"] = this.dailyTransactionIdByCustomer;
+        data["dailyTransactionBondSNo"] = this.dailyTransactionBondSNo;
+        data["dailyTransactionDate"] = this.dailyTransactionDate ? this.dailyTransactionDate.toISOString() : <any>undefined;
+        data["dailyTransactionMonth"] = this.dailyTransactionMonth;
+        data["dailyTransactionYear"] = this.dailyTransactionYear;
+        data["dailyTransactionDebitAmount"] = this.dailyTransactionDebitAmount;
+        data["dailyTransactionCreditAmount"] = this.dailyTransactionCreditAmount;
+        data["dailyTransactionDescription"] = this.dailyTransactionDescription;
+        data["isActive"] = this.isActive;
+        data["customerId"] = this.customerId;
+        data["bondId"] = this.bondId;
+        data["bondUserId"] = this.bondUserId;
+        data["bondName"] = this.bondName;
+        data["detailAccountId"] = this.detailAccountId;
+        data["detailAccountIdByCustomer"] = this.detailAccountIdByCustomer;
+        data["detailAccountNameAr"] = this.detailAccountNameAr;
+        data["detailAccountNameEn"] = this.detailAccountNameEn;
+        data["totalAccountId"] = this.totalAccountId;
+        data["mainAccountId"] = this.mainAccountId;
+        data["generalLedgerId"] = this.generalLedgerId;
+        return data; 
+    }
+}
+
+export interface IDailyTransactionDto {
+    id?: string;
+    dailyTransactionIdByCustomer?: number;
+    dailyTransactionBondSNo?: number;
+    dailyTransactionDate?: Date;
+    dailyTransactionMonth?: number;
+    dailyTransactionYear?: number;
+    dailyTransactionDebitAmount?: number;
+    dailyTransactionCreditAmount?: number;
+    dailyTransactionDescription?: string | undefined;
+    isActive?: boolean;
+    customerId?: string;
+    bondId?: string;
+    bondUserId?: number;
+    bondName?: string | undefined;
+    detailAccountId?: string;
+    detailAccountIdByCustomer?: number;
+    detailAccountNameAr?: string | undefined;
+    detailAccountNameEn?: string | undefined;
+    totalAccountId?: string;
+    mainAccountId?: string;
+    generalLedgerId?: string;
 }
 
 export class CreateDailyTransactionCommand implements ICreateDailyTransactionCommand {

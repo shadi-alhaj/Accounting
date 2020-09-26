@@ -13,7 +13,7 @@ import { CustomerListComponent } from './customer/customer-list/customer-list.co
 import { CustomerEditComponent } from './customer/customer-edit/customer-edit.component';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent, pathMatch: 'full' },
+  { path: '', redirectTo: 'finance-year-list', pathMatch: 'full' },
   { path: 'todo', component: TodoComponent, canActivate: [AuthorizeGuard] },
   { path: 'customer-list', component: CustomerListComponent, canActivate: [AuthorizeGuard] },
   { path: 'customer-edit', component: CustomerEditComponent, canActivate: [AuthorizeGuard] },

@@ -4,14 +4,16 @@ using Accounting.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Accounting.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200923132015_AddNewPropertiestoUser")]
+    partial class AddNewPropertiestoUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -176,7 +178,7 @@ namespace Accounting.Infrastructure.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("0af666a4-ab63-4c42-b2c6-9e23193a4ced"),
+                            Id = new Guid("6d8cdfa1-aaad-4c13-906d-6ba1d6733594"),
                             Address = "Macca St.",
                             City = "Amman",
                             Country = "Jordan",
@@ -861,22 +863,6 @@ namespace Accounting.Infrastructure.Persistence.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "41643a25-f95b-4707-9dac-d3689bc7d7fc",
-                            ConcurrencyStamp = "6648ab0f-a9e2-422a-b70a-59eee6456705",
-                            Name = "Admin",
-                            NormalizedName = "ADMIN"
-                        },
-                        new
-                        {
-                            Id = "c468e8a7-cd7a-4f43-9a7b-952860fc64e2",
-                            ConcurrencyStamp = "9e336dc5-ab4f-4fcd-8dc2-9cb6310325d4",
-                            Name = "Accountant",
-                            NormalizedName = "ACCOUNTANT"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

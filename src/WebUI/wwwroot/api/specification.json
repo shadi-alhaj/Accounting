@@ -376,6 +376,53 @@
       }
     },
     "/api/DailyTransactions": {
+      "get": {
+        "tags": [
+          "DailyTransactions"
+        ],
+        "operationId": "DailyTransactions_DailyTransactionBySNoAndFinanceYearQuery",
+        "parameters": [
+          {
+            "name": "customerId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "financeYear",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "bondSno",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 3
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DailyTransactionVm"
+                }
+              }
+            }
+          }
+        }
+      },
       "post": {
         "tags": [
           "DailyTransactions"
@@ -401,6 +448,86 @@
                 "schema": {
                   "type": "string",
                   "format": "guid"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/DailyTransactions/FirstDailyTransactionRecord": {
+      "get": {
+        "tags": [
+          "DailyTransactions"
+        ],
+        "operationId": "DailyTransactions_FirstDailyTransactionRecord",
+        "parameters": [
+          {
+            "name": "customerId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "financeYear",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DailyTransactionVm"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/DailyTransactions/LastDailyTransactionRecord": {
+      "get": {
+        "tags": [
+          "DailyTransactions"
+        ],
+        "operationId": "DailyTransactions_LastDailyTransactionRecord",
+        "parameters": [
+          {
+            "name": "customerId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "financeYear",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DailyTransactionVm"
                 }
               }
             }
@@ -2153,6 +2280,108 @@
           "email": {
             "type": "string",
             "nullable": true
+          }
+        }
+      },
+      "DailyTransactionVm": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "lists": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/DailyTransactionDto"
+            }
+          }
+        }
+      },
+      "DailyTransactionDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "guid"
+          },
+          "dailyTransactionIdByCustomer": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dailyTransactionBondSNo": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dailyTransactionDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dailyTransactionMonth": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dailyTransactionYear": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dailyTransactionDebitAmount": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "dailyTransactionCreditAmount": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "dailyTransactionDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "customerId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "bondId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "bondUserId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "bondName": {
+            "type": "string",
+            "nullable": true
+          },
+          "detailAccountId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "detailAccountIdByCustomer": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "detailAccountNameAr": {
+            "type": "string",
+            "nullable": true
+          },
+          "detailAccountNameEn": {
+            "type": "string",
+            "nullable": true
+          },
+          "totalAccountId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "mainAccountId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "generalLedgerId": {
+            "type": "string",
+            "format": "guid"
           }
         }
       },

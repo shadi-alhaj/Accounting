@@ -101,7 +101,7 @@ export class FinanceYearListComponent implements OnInit {
 
   onRowClick(row){
     localStorage.setItem('customer', JSON.stringify(row));
-    this.router.navigate(['/selected-customer']);    
+    this.router.navigate(['/selected-customer/daily-transaction']);    
   }
 
 }

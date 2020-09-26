@@ -8,6 +8,7 @@ using IdentityServer4.Models;
 using IdentityServer4.Test;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,7 +29,13 @@ namespace Accounting.Application
 
             services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
 
+            //services.AddIdentity<ApplicationUser, IdentityRole>()              
+            //  .AddEntityFrameworkStores<ApplicationDbContext>()
+            //  .AddDefaultTokenProviders()
+            //  .AddDefaultUI();
+
             services.AddDefaultIdentity<ApplicationUser>()
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             if (environment.IsEnvironment("Test"))

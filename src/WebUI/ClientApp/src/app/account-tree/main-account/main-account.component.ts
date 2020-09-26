@@ -35,6 +35,11 @@ export class MainAccountComponent implements OnInit {
     this.getMainAccountList();
   }
 
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
   getMainAccountList(){
     this.mainAccountsClient.mainAccounts(this.accountTreeSvc.customerId).subscribe(
       result => {

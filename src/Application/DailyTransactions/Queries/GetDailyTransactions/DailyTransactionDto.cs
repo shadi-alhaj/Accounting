@@ -18,9 +18,16 @@ namespace Accounting.Application.DailyTransactions.Queries.GetDailyTransactions
         public bool IsActive { get; set; }
         public Guid CustomerId { get; set; }
         public Guid BondId { get; set; }
+        public int BondUserId { get; set; }
+        public string BondName { get; set; }
         public Guid DetailAccountId { get; set; }
+        public int DetailAccountIdByCustomer { get; set; }
+        public string DetailAccountNameAr { get; set; }
+        public string DetailAccountNameEn { get; set; }
         public Guid TotalAccountId { get; set; }
         public Guid MainAccountId { get; set; }
         public Guid GeneralLedgerId { get; set; }
+
+
     }
 }

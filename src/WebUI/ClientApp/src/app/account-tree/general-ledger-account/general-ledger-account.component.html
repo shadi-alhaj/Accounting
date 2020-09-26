@@ -5,8 +5,13 @@
     <div class="card-bdoy">
     <div class="form-group  mt-1  d-flex justify-content-center align-items-center">
         <label class="col-md-1 m-0 p-0 text-center">Search By: </label>
-        <input type="search" id="search" value="" class="form-control col-md-3" placeholder="Search using Fuzzy searching">
-        <!-- <input matInput (keyup)="applyFilter($event)" #input> -->
+        <input type="search" 
+               id="search" 
+               value=""
+               class="form-control col-md-3"
+               placeholder="Search..."
+               (keyup)="applyFilter($event)"
+                #input>        
     </div>
     <div class="row">
         <div class="col-lg-4 col-lg-offset-4">

@@ -1,5 +1,6 @@
-import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, FormArray, Validators, FormControl } from '@angular/forms';
 import { Injectable } from '@angular/core';
+import { DailyTransactionDetailsDto, DailyTransactionDto } from 'src/app/accounting-api';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +27,7 @@ export class DailyTransactionService {
       dailyTransactionDate: [Date, [Validators.required]],
       dailyTransactionMonth: [null, [Validators.required]],
       dailyTransactionYear: [null, [Validators.required]],
-      dailyTransactionDetailsList: this.fb.array([this.buildDailyTrnsactionDetails()]),
+      dailyTransactionDetailsList: this.fb.array([]),
       sumDebit: 0.000,
       sumCredit: 0.000,
       difference: 0.000,
@@ -87,5 +88,20 @@ export class DailyTransactionService {
 
   removeDailyTransactionDetails(index) {
     this.dailyTransactionDetailsList.removeAt(index);
+  }
+
+  pushValue(dto: DailyTransactionDto){
+    return  this.fb.group({
+      detailAccountIdByCustomer: dto.detailAccountIdByCustomer,
+      detailAccountId: dto.detailAccountId,
+      detailAccountNameAr: dto.detailAccountNameAr,
+      detailAccountNameEn: dto.detailAccountNameEn,
+      dailyTransactionDebitAmount:  dto.dailyTransactionDebitAmount,
+      dailyTransactionCreditAmount: dto.dailyTransactionCreditAmount,
+      dailyTransactionDescription: dto.dailyTransactionDescription,
+      totalAccountId:  dto.totalAccountId,
+      mainAccountId:   dto.mainAccountId,
+      generalLedgerId: dto.generalLedgerId
+    });
   }
 }

@@ -3,6 +3,16 @@
         <h3>{{pageTitle}}</h3>
     </div>
     <div class="card-bdoy">
+        <div class="form-group  mt-1  d-flex justify-content-center align-items-center">
+            <label class="col-md-1 m-0 p-0 text-center">Search By: </label>
+            <input type="search" 
+                   id="search" 
+                   value=""
+                   class="form-control col-md-3"
+                   placeholder="Search..."
+                   (keyup)="applyFilter($event)"
+                    #input>        
+        </div>
     <div>
         <table mat-table [dataSource]="dataSource" >
             <ng-container matColumnDef="totalAccountIdByCustomer">

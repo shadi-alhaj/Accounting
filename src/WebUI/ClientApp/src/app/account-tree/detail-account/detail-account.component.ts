@@ -35,6 +35,11 @@ export class DetailAccountComponent implements OnInit {
     this.getDetailAccountList();
   }
 
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
   getDetailAccountList() {
     this.detailAccountsClient.detailAccounts(this.accountTreeSvc.customerId).subscribe(
       result => {

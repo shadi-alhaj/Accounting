@@ -36,6 +36,11 @@ export class TotalAccountComponent implements OnInit {
     this.getTotalAccountList();
   }
 
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
   getTotalAccountList() {
     this.totalAccountsClient
       .totalAccounts(this.accountTreeSvc.customerId)

@@ -4,14 +4,16 @@ using Accounting.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Accounting.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200923132416_AddAdminRole")]
+    partial class AddAdminRole
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -176,7 +178,7 @@ namespace Accounting.Infrastructure.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("0af666a4-ab63-4c42-b2c6-9e23193a4ced"),
+                            Id = new Guid("b92511fe-9d92-4146-abea-a318dee8c6d8"),
                             Address = "Macca St.",
                             City = "Amman",
                             Country = "Jordan",
@@ -865,17 +867,10 @@ namespace Accounting.Infrastructure.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "41643a25-f95b-4707-9dac-d3689bc7d7fc",
-                            ConcurrencyStamp = "6648ab0f-a9e2-422a-b70a-59eee6456705",
+                            Id = "e9776ae5-22d8-472c-8246-4f50f67469dd",
+                            ConcurrencyStamp = "debbb28f-be95-4ceb-9a97-59dffcc537d7",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
-                        },
-                        new
-                        {
-                            Id = "c468e8a7-cd7a-4f43-9a7b-952860fc64e2",
-                            ConcurrencyStamp = "9e336dc5-ab4f-4fcd-8dc2-9cb6310325d4",
-                            Name = "Accountant",
-                            NormalizedName = "ACCOUNTANT"
                         });
                 });
 

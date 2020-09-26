@@ -85,13 +85,14 @@ namespace Accounting.Infrastructure.Persistence.Configurations
                 new Customer
                 {
                     Id = Guid.NewGuid(),
+                    CustomerId= 1,
                     CustomerNameAr = "مكتب المدير",
                     CustomerNameEn = "Almodeer Office",
                     MobileNo1 = "0795980824",
                     Country = "Jordan",
                     City = "Amman",
                     Address = "Macca St.",
-                    TaxNo = "123456"
+                    TaxNo = "123456",
                 }
             );
         }

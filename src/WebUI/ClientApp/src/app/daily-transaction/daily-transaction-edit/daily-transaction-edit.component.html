@@ -3,6 +3,68 @@
         <h1>{{pageTitle}}</h1>
     </div>
     <div class="card-bdoy">
+        <fieldset class="p-3" style="border: 1px red solid;">
+            <legend style="width: auto;">
+                Search By
+            </legend>
+            <div class="row mt-2">
+                <div class="col-md-2">
+                    Bond SNo.
+                </div>
+                <div class="col-md-1">
+                    <input type="number"
+                           class="form-control text-center">
+                </div>
+                <div class="col-md-2">
+                    Date
+                </div>
+                <div class="col-md-5 row m-0 p-0">
+                    <input class="form-control  col-md-4" 
+                           matInput [matDatepicker]="searchPicker"
+                           placeholder="Choose a date"
+                           >
+                    <mat-datepicker-toggle matSuffix [for]="searchPicker"></mat-datepicker-toggle>
+                    <mat-datepicker #searchPicker></mat-datepicker>
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-primary"
+                            (click)="getDailyTransactionBySno()">Search</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="mr-1">
+                    <button class="btn btn-light" (click)="onGetFirstRecord()">
+                        <fa-icon [icon]="firstRecord"></fa-icon>
+                    </button>
+                </div>
+                <div class="mr-1">
+                    <button class="btn btn-light">
+                        <fa-icon [icon]="privousRecord"></fa-icon>
+                    </button>
+                </div>
+                <div class="mr-1">
+                    <button class="btn btn-light">
+                        <fa-icon [icon]="nextRecord"></fa-icon>
+                    </button>
+                </div>
+                <div class="mr-1">
+                    <button class="btn btn-light"
+                            title="Last Record"
+                            (click)="onGetLastRecord()">
+                        <fa-icon [icon]="lastRecord"></fa-icon>
+                    </button>
+                </div>
+
+                <div class="mr-1">
+                    <button class="btn btn-light"
+                            title="New Record"
+                            (click)="onNewRecord()">
+                        <fa-icon [icon]="newRecord"></fa-icon>
+                    </button>
+                </div>
+                
+            </div>
+        </fieldset>
         <form [formGroup]="dailyTransactionSvc.dailyTransactionForm" 
               autocomplete="off"
               (submit)="onSubmit()"
@@ -52,8 +114,7 @@
                     <div class="col-md-1">
                         <input type="number"
                                class="form-control text-center" 
-                               formControlName="dailyTransactionBondSNo"
-                               readonly>
+                               formControlName="dailyTransactionBondSNo">
                     </div>
                 </div>
 
